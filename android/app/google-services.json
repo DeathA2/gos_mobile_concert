@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "497213111153",
+    "project_id": "mobile-concert",
+    "storage_bucket": "mobile-concert.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:497213111153:android:5bd5fb20a9368309f794d0",
+        "android_client_info": {
+          "package_name": "com.example.gos_mobile_concert"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzzGObxWUTHWCHrgD8d4Gz0iR-HDUfr8g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:497213111153:android:adabfbb3aa57e314f794d0",
+        "android_client_info": {
+          "package_name": "com.example.mobile_concert"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzzGObxWUTHWCHrgD8d4Gz0iR-HDUfr8g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

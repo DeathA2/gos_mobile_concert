@@ -1,0 +1,1 @@
+{"flutter":{"platforms":{"android":{"default":{"projectId":"mobile-concert","appId":"1:497213111153:android:adabfbb3aa57e314f794d0","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"mobile-concert","configurations":{"android":"1:497213111153:android:adabfbb3aa57e314f794d0","ios":"1:497213111153:ios:1bd83c2c19dd3573f794d0"}}}}}}
