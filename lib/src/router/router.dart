@@ -6,8 +6,6 @@ import 'package:mobile_concert/src/features/dashboard/logic/navigation_bar_item.
 import 'package:mobile_concert/src/features/dashboard/view/dashboard_view.dart';
 import 'package:mobile_concert/src/features/home/view/home_view.dart';
 import 'package:mobile_concert/src/features/photo_view/photo_view_page.dart';
-import 'package:mobile_concert/src/features/sample/view/sample_detail_view.dart';
-import 'package:mobile_concert/src/features/sample/view/sample_list_view.dart';
 import 'package:mobile_concert/src/router/coordinator.dart';
 import 'package:mobile_concert/src/router/extras/photo_view_extra.dart';
 import 'package:mobile_concert/src/router/route_name.dart';
@@ -32,26 +30,26 @@ class AppRouter {
             pageBuilder: (context, state) =>
                 const NoTransitionPage(child: HomeView()),
             routes: <RouteBase>[
-              GoRoute(
-                parentNavigatorKey: AppCoordinator.navigatorKey,
-                path: AppRouteNames.sample.subPath,
-                name: AppRouteNames.sample.name,
-                builder: (_, __) => const SampleItemListView(),
-                routes: <RouteBase>[
-                  GoRoute(
-                    parentNavigatorKey: AppCoordinator.navigatorKey,
-                    path: AppRouteNames.sampleDetails.buildSubPathParam,
-                    name: AppRouteNames.sampleDetails.name,
-                    builder: (_, state) {
-                      final id =
-                          state.pathParameters[AppRouteNames
-                              .sampleDetails
-                              .paramName]!;
-                      return SampleItemDetailsView(id: id);
-                    },
-                  ),
-                ],
-              ),
+              // GoRoute(
+              //   parentNavigatorKey: AppCoordinator.navigatorKey,
+              //   path: AppRouteNames.sample.subPath,
+              //   name: AppRouteNames.sample.name,
+              //   builder: (_, __) => const SampleItemListView(),
+              //   routes: <RouteBase>[
+              //     GoRoute(
+              //       parentNavigatorKey: AppCoordinator.navigatorKey,
+              //       path: AppRouteNames.sampleDetails.buildSubPathParam,
+              //       name: AppRouteNames.sampleDetails.name,
+              //       builder: (_, state) {
+              //         final id =
+              //             state.pathParameters[AppRouteNames
+              //                 .sampleDetails
+              //                 .paramName]!;
+              //         return SampleItemDetailsView(id: id);
+              //       },
+              //     ),
+              //   ],
+              // ),
             ],
           ),
         ],
