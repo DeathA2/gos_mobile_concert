@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_concert/src/config/constants/constants.dart';
 import 'package:mobile_concert/src/network/model/post.dart';
 import 'package:mobile_concert/src/network/model/user.dart';
+import 'package:mobile_concert/src/theme/colors.dart';
 import 'package:mobile_concert/src/theme/styles.dart';
+import 'package:mobile_concert/src/theme/values.dart';
 import 'package:mobile_concert/src/utils/date/date_helper.dart';
 import 'package:mobile_concert/widgets/avatar/avatar.dart';
 import 'package:mobile_concert/widgets/post/media_layout_view.dart';
@@ -94,7 +97,58 @@ class _XSocialPostState extends State<XSocialPost> {
   }
 
   Widget _renderPostMedia() {
+    if (widget.postInfo.isStream) {
+      return _renderStreamView();
+    }
     return XMediaLayoutView(listMediaUrl: widget.postInfo.medias);
+  }
+
+  Widget _renderStreamView() {
+    return Stack(
+      children: [
+        Container(
+          width: double.infinity,
+          height: AppConstants.mediaMaxHeight,
+          color: AppColors.black2,
+        ),
+        Positioned(
+          top: AppPadding.p12,
+          left: AppPadding.p12,
+          child: _renderStreamLabel(),
+        ),
+      ],
+    );
+  }
+
+  Widget _renderStreamLabel() {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: AppPadding.p8,
+        vertical: AppPadding.p4,
+      ),
+      decoration: BoxDecoration(
+        color: AppColors.red,
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.fiber_smart_record_rounded,
+            size: AppSizes.s16,
+            color: AppColors.scaffoldBackgroundColor,
+          ),
+          SizedBox(width: AppPadding.p4),
+          Text(
+            "LIVE",
+            style: AppStyles.title.copyWith(
+              color: AppColors.scaffoldBackgroundColor,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _renderReactionSection() {

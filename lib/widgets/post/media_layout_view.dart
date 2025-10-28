@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_concert/src/config/constants/constants.dart';
+import 'package:mobile_concert/src/theme/values.dart';
 import 'package:mobile_concert/widgets/image/image_network.dart';
 
 class XMediaLayoutView extends StatelessWidget {
@@ -24,20 +26,28 @@ class XMediaLayoutView extends StatelessWidget {
   }
 
   Widget _renderSingleMedia(String url) {
-    return SizedBox(
-      height: double.infinity,
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxHeight: AppConstants.mediaMaxHeight,
+        minHeight: AppConstants.mediaMinHeight,
+        maxWidth: double.infinity,
+        minWidth: double.infinity,
+      ),
       child: XImageNetwork(url, fit: BoxFit.cover),
     );
   }
 
   Widget _renderDoubleMedias() {
     return ConstrainedBox(
-      constraints: BoxConstraints(maxHeight: 600.0, minHeight: 300.0),
+      constraints: BoxConstraints(
+        maxHeight: AppConstants.mediaMaxHeight,
+        minHeight: AppConstants.mediaMinHeight,
+      ),
       child: IntrinsicHeight(
         child: Row(
           children: [
             Expanded(child: _renderSingleMedia(listMediaUrl.first)),
-            SizedBox(width: 4.0),
+            SizedBox(width: AppPadding.p4),
             Expanded(child: _renderSingleMedia(listMediaUrl.last)),
           ],
         ),
@@ -47,17 +57,20 @@ class XMediaLayoutView extends StatelessWidget {
 
   Widget _renderTripleMedias() {
     return ConstrainedBox(
-      constraints: BoxConstraints(maxHeight: 600.0, minHeight: 300.0),
+      constraints: BoxConstraints(
+        maxHeight: AppConstants.mediaMaxHeight,
+        minHeight: AppConstants.mediaMinHeight,
+      ),
       child: IntrinsicHeight(
         child: Row(
           children: [
             Expanded(child: _renderSingleMedia(listMediaUrl.first)),
-            SizedBox(width: 4.0),
+            SizedBox(width: AppPadding.p4),
             Expanded(
               child: Column(
                 children: [
                   Expanded(child: _renderSingleMedia(listMediaUrl.last)),
-                  SizedBox(height: 4.0),
+                  SizedBox(height: AppPadding.p4),
                   Expanded(child: _renderSingleMedia(listMediaUrl.last)),
                 ],
               ),
@@ -70,7 +83,10 @@ class XMediaLayoutView extends StatelessWidget {
 
   Widget _renderSquadMedias() {
     return ConstrainedBox(
-      constraints: BoxConstraints(maxHeight: 600.0, minHeight: 300.0),
+      constraints: BoxConstraints(
+        maxHeight: AppConstants.mediaMaxHeight,
+        minHeight: AppConstants.mediaMinHeight,
+      ),
       child: IntrinsicHeight(
         child: Row(
           children: [
@@ -78,17 +94,17 @@ class XMediaLayoutView extends StatelessWidget {
               child: Column(
                 children: [
                   Expanded(child: _renderSingleMedia(listMediaUrl.first)),
-                  SizedBox(height: 4.0),
+                  SizedBox(height: AppPadding.p4),
                   Expanded(child: _renderSingleMedia(listMediaUrl.first)),
                 ],
               ),
             ),
-            SizedBox(width: 4.0),
+            SizedBox(width: AppPadding.p4),
             Expanded(
               child: Column(
                 children: [
                   Expanded(child: _renderSingleMedia(listMediaUrl.last)),
-                  SizedBox(height: 4.0),
+                  SizedBox(height: AppPadding.p4),
                   Expanded(child: _renderSingleMedia(listMediaUrl.last)),
                 ],
               ),

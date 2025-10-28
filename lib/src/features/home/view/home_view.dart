@@ -12,7 +12,7 @@ class HomeView extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverList.builder(
-            itemCount: 2,
+            itemCount: MockData.listPost.length,
             itemBuilder: (_, index) =>
                 XSocialPost(postInfo: MockData.listPost[index]),
           ),
