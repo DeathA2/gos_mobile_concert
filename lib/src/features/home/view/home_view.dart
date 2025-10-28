@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_concert/src/network/mock/mock_data.dart';
 import 'package:mobile_concert/widgets/post/social_post.dart';
 
 class HomeView extends StatelessWidget {
@@ -12,7 +13,8 @@ class HomeView extends StatelessWidget {
         slivers: [
           SliverList.builder(
             itemCount: 2,
-            itemBuilder: (_, index) => XSocialPost(),
+            itemBuilder: (_, index) =>
+                XSocialPost(postInfo: MockData.listPost[index]),
           ),
         ],
       ),

@@ -47,6 +47,10 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/ic_google.svg
   SvgGenImage get icGoogle => const SvgGenImage('assets/svgs/ic_google.svg');
 
+  /// File path: assets/svgs/ic_user_default.svg
+  SvgGenImage get icUserDefault =>
+      const SvgGenImage('assets/svgs/ic_user_default.svg');
+
   /// File path: assets/svgs/state_empty.svg
   SvgGenImage get stateEmpty =>
       const SvgGenImage('assets/svgs/state_empty.svg');
@@ -69,6 +73,7 @@ class $AssetsSvgsGen {
     icApple,
     icFacebook,
     icGoogle,
+    icUserDefault,
     stateEmpty,
     stateEmptyMap,
     stateEmptyNotification,

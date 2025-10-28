@@ -1,15 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_concert/generated/assets/assets.gen.dart';
+import 'package:mobile_concert/src/network/model/post.dart';
+import 'package:mobile_concert/src/network/model/user.dart';
+import 'package:mobile_concert/src/theme/styles.dart';
+import 'package:mobile_concert/src/utils/date/date_helper.dart';
+import 'package:mobile_concert/widgets/avatar/avatar.dart';
 import 'package:mobile_concert/widgets/post/media_layout_view.dart';
 
 class XSocialPost extends StatefulWidget {
-  const XSocialPost({super.key});
+  final Post postInfo;
+
+  const XSocialPost({super.key, required this.postInfo});
 
   @override
   State<XSocialPost> createState() => _XSocialPostState();
 }
 
 class _XSocialPostState extends State<XSocialPost> {
+  late User userInfo;
+
+  @override
+  void initState() {
+    userInfo = widget.postInfo.owner;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -43,15 +57,19 @@ class _XSocialPostState extends State<XSocialPost> {
   }
 
   Widget _renderAvatar() {
-    return CircleAvatar(radius: 18.0, child: Assets.svgs.emptyPhoto.svg());
+    return XAvatar(url: userInfo.avatar, imageSize: 36.0, borderWidth: 0.0);
   }
 
   Widget _renderUserInfo() {
+    final postTime = DateHelper.getDateChatDetails(widget.postInfo.createAt);
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [Text("'Lance'Mark"), Text("2h")],
+      children: [
+        Text(userInfo.name, style: AppStyles.title),
+        Text(postTime, style: AppStyles.inputStyle),
+      ],
     );
   }
 
@@ -60,27 +78,23 @@ class _XSocialPostState extends State<XSocialPost> {
   }
 
   Widget _renderPostSection() {
-    return Column(children: [_renderPostContent(), _renderPostMedia()]);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [_renderPostContent(), _renderPostMedia()],
+    );
   }
 
   Widget _renderPostContent() {
-    return Padding(
+    return Container(
       padding: const EdgeInsets.only(left: 12.0, right: 12.0, bottom: 12.0),
-      child: Text(
-        "ashdgasdhasgdhashdgjhasgdhgadgajdghjasgdhjasgdgasdgasdgajsdgjhasgdhjasgdhjagsdhasgdhjgasd",
-      ),
+      width: double.infinity,
+      child: Text(widget.postInfo.content, style: AppStyles.body),
     );
   }
 
   Widget _renderPostMedia() {
-    return XMediaLayoutView(
-      listMediaUrl: [
-        "https://scontent.fsgn2-11.fna.fbcdn.net/v/t39.30808-6/500426432_2563513020664851_3109461176532767756_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=833d8c&_nc_ohc=ByD_l3_LsLEQ7kNvwF5nrqB&_nc_oc=AdkVsI3skXDtWF2wcGRRFeAf-YvvwD4UAdIeKW82sZXSTVHrfEDxhIHibyAJ13epXe6SLnVZbqFpmYUM9-Jmicke&_nc_zt=23&_nc_ht=scontent.fsgn2-11.fna&_nc_gid=t8yOqjUVGxlbXRI29F9bzg&oh=00_AffdSkDXExMJ7kEgX6rovZTmg7B-a0pGn8CT7V1sSfCHdQ&oe=69055C9E",
-        "https://scontent.fsgn2-11.fna.fbcdn.net/v/t39.30808-6/500426432_2563513020664851_3109461176532767756_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=833d8c&_nc_ohc=ByD_l3_LsLEQ7kNvwF5nrqB&_nc_oc=AdkVsI3skXDtWF2wcGRRFeAf-YvvwD4UAdIeKW82sZXSTVHrfEDxhIHibyAJ13epXe6SLnVZbqFpmYUM9-Jmicke&_nc_zt=23&_nc_ht=scontent.fsgn2-11.fna&_nc_gid=t8yOqjUVGxlbXRI29F9bzg&oh=00_AffdSkDXExMJ7kEgX6rovZTmg7B-a0pGn8CT7V1sSfCHdQ&oe=69055C9E",
-        "https://scontent.fsgn2-11.fna.fbcdn.net/v/t39.30808-6/497863430_2553066201709533_93243012629375990_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=833d8c&_nc_ohc=8yMcIZRqbksQ7kNvwGfZgXt&_nc_oc=AdkTJMoEtvAfKEThGpAZuCbeAp9aY9a3hEmxElXPsIOgSb9fpeIceH3rqJ9XRvtLkcJ6RwnJaORe3xmdQ1iD5Nr8&_nc_zt=23&_nc_ht=scontent.fsgn2-11.fna&_nc_gid=qzj2yLxHy_ltuegS415_yw&oh=00_AfcQ8ywp1BKrqKC9q_LIu1k2cgJWYu2vM5y1gIzG3NyMfQ&oe=690576E9",
-        "https://scontent.fsgn2-11.fna.fbcdn.net/v/t39.30808-6/497863430_2553066201709533_93243012629375990_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=833d8c&_nc_ohc=8yMcIZRqbksQ7kNvwGfZgXt&_nc_oc=AdkTJMoEtvAfKEThGpAZuCbeAp9aY9a3hEmxElXPsIOgSb9fpeIceH3rqJ9XRvtLkcJ6RwnJaORe3xmdQ1iD5Nr8&_nc_zt=23&_nc_ht=scontent.fsgn2-11.fna&_nc_gid=qzj2yLxHy_ltuegS415_yw&oh=00_AfcQ8ywp1BKrqKC9q_LIu1k2cgJWYu2vM5y1gIzG3NyMfQ&oe=690576E9",
-      ],
-    );
+    return XMediaLayoutView(listMediaUrl: widget.postInfo.medias);
   }
 
   Widget _renderReactionSection() {
