@@ -34,6 +34,17 @@ class MockData {
       createAt: DateTime.now().subtract(Duration(days: 1)),
       owner: listUser[2],
     ),
+
+    Post(
+      id: "post_3",
+      content: "GOS concert THE END",
+      medias: [
+        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      ],
+      isStream: false,
+      createAt: DateTime.now().subtract(Duration(days: 1)),
+      owner: listUser[3],
+    ),
   ];
 
   static List<User> listUser = [

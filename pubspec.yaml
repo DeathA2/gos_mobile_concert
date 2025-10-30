@@ -44,6 +44,10 @@ dependencies:
   cached_network_image: ^3.4.1
   lottie: ^3.3.1
   scrollable_positioned_list: ^0.3.8
+  flashy_tab_bar2: ^0.0.10
+  cached_video_player_plus: ^4.0.4
+  video_player: ^2.10.0
+  chewie: ^1.13.0
 
     # STATE MANAGEMENT
   flutter_bloc: ^9.1.1

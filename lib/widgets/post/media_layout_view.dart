@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_concert/src/config/constants/constants.dart';
 import 'package:mobile_concert/src/theme/values.dart';
 import 'package:mobile_concert/widgets/image/image_network.dart';
+import 'package:mobile_concert/widgets/video/video_network.dart';
 
 class XMediaLayoutView extends StatelessWidget {
   final List<String> listMediaUrl;
@@ -26,6 +27,7 @@ class XMediaLayoutView extends StatelessWidget {
   }
 
   Widget _renderSingleMedia(String url) {
+    final isVideoUrl = url.split(".").lastOrNull?.contains("mp4") ?? false;
     return ConstrainedBox(
       constraints: BoxConstraints(
         maxHeight: AppConstants.mediaMaxHeight,
@@ -33,9 +35,36 @@ class XMediaLayoutView extends StatelessWidget {
         maxWidth: double.infinity,
         minWidth: double.infinity,
       ),
-      child: XImageNetwork(url, fit: BoxFit.cover),
+      child: isVideoUrl
+          ? XCachedVideo(videoUrl: url)
+          : XImageNetwork(url, fit: BoxFit.cover),
     );
   }
+// Widget _renderSingleMedia(String url) {
+//   final isVideoUrl = url.split(".").lastOrNull?.contains("mp4") ?? false;
+
+//   if (!isVideoUrl) {
+//     return XImageNetwork(url, fit: BoxFit.cover);
+//   }
+
+//   return LayoutBuilder(
+//     builder: (context, constraints) {
+//       return ConstrainedBox(
+//         constraints: BoxConstraints(
+//           maxHeight: AppConstants.mediaMaxHeight,
+//         ),
+//         child: FittedBox(
+//           fit: BoxFit.contain,
+//           child: SizedBox(
+//             width: constraints.maxWidth,
+//             child: XCachedVideo(videoUrl: url),
+//           ),
+//         ),
+//       );
+//     },
+//   );
+// }
+
 
   Widget _renderDoubleMedias() {
     return ConstrainedBox(

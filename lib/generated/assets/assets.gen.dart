@@ -40,12 +40,28 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/ic_apple.svg
   SvgGenImage get icApple => const SvgGenImage('assets/svgs/ic_apple.svg');
 
+  /// File path: assets/svgs/ic_chat.svg
+  SvgGenImage get icChat => const SvgGenImage('assets/svgs/ic_chat.svg');
+
   /// File path: assets/svgs/ic_facebook.svg
   SvgGenImage get icFacebook =>
       const SvgGenImage('assets/svgs/ic_facebook.svg');
 
   /// File path: assets/svgs/ic_google.svg
   SvgGenImage get icGoogle => const SvgGenImage('assets/svgs/ic_google.svg');
+
+  /// File path: assets/svgs/ic_heart.svg
+  SvgGenImage get icHeart => const SvgGenImage('assets/svgs/ic_heart.svg');
+
+  /// File path: assets/svgs/ic_home.svg
+  SvgGenImage get icHome => const SvgGenImage('assets/svgs/ic_home.svg');
+
+  /// File path: assets/svgs/ic_messenger.svg
+  SvgGenImage get icMessenger =>
+      const SvgGenImage('assets/svgs/ic_messenger.svg');
+
+  /// File path: assets/svgs/ic_option.svg
+  SvgGenImage get icOption => const SvgGenImage('assets/svgs/ic_option.svg');
 
   /// File path: assets/svgs/ic_user_default.svg
   SvgGenImage get icUserDefault =>
@@ -71,8 +87,13 @@ class $AssetsSvgsGen {
   List<SvgGenImage> get values => [
     emptyPhoto,
     icApple,
+    icChat,
     icFacebook,
     icGoogle,
+    icHeart,
+    icHome,
+    icMessenger,
+    icOption,
     icUserDefault,
     stateEmpty,
     stateEmptyMap,

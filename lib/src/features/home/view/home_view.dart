@@ -7,16 +7,17 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Mobile GOS')),
-      body: CustomScrollView(
-        slivers: [
-          SliverList.builder(
-            itemCount: MockData.listPost.length,
-            itemBuilder: (_, index) =>
-                XSocialPost(postInfo: MockData.listPost[index]),
-          ),
-        ],
+    return SafeArea(
+      child: Scaffold(
+        body: CustomScrollView(
+          slivers: [
+            SliverList.builder(
+              itemCount: MockData.listPost.length,
+              itemBuilder: (_, index) =>
+                  XSocialPost(postInfo: MockData.listPost[index]),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_concert/generated/assets/assets.gen.dart';
 import 'package:mobile_concert/src/config/constants/constants.dart';
 import 'package:mobile_concert/src/network/model/post.dart';
 import 'package:mobile_concert/src/network/model/user.dart';
@@ -77,7 +78,7 @@ class _XSocialPostState extends State<XSocialPost> {
   }
 
   Widget _renderPostOptions() {
-    return Icon(Icons.more_vert_rounded);
+    return Assets.svgs.icOption.svg();
   }
 
   Widget _renderPostSection() {
@@ -156,8 +157,8 @@ class _XSocialPostState extends State<XSocialPost> {
       padding: EdgeInsetsGeometry.symmetric(horizontal: 12.0, vertical: 8.0),
       child: Row(
         children: [
-          _renderReactionButton(),
-          _renderReactionButton(),
+          _renderReactionButton(icon: Assets.svgs.icHeart.svg()),
+          _renderReactionButton(icon: Assets.svgs.icChat.svg()),
           _renderReactionButton(),
           _renderReactionButton(),
         ],
@@ -165,7 +166,10 @@ class _XSocialPostState extends State<XSocialPost> {
     );
   }
 
-  Widget _renderReactionButton() {
-    return Expanded(child: Icon(Icons.heart_broken));
+  Widget _renderReactionButton({Widget? icon}) {
+    if (icon == null) {
+      return Expanded(child: SizedBox.shrink());
+    }
+    return Expanded(child: icon);
   }
 }
