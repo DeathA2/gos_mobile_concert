@@ -6,7 +6,12 @@ import 'package:mobile_concert/widgets/video/video_network.dart';
 
 class XMediaLayoutView extends StatelessWidget {
   final List<String> listMediaUrl;
-  const XMediaLayoutView({super.key, required this.listMediaUrl});
+  final Function(int) onTapMedia;
+  const XMediaLayoutView({
+    super.key,
+    required this.listMediaUrl,
+    required this.onTapMedia,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,45 +31,23 @@ class XMediaLayoutView extends StatelessWidget {
     }
   }
 
-  Widget _renderSingleMedia(String url) {
+  Widget _renderSingleMedia(String url, {int index = 0}) {
     final isVideoUrl = url.split(".").lastOrNull?.contains("mp4") ?? false;
-    return ConstrainedBox(
-      constraints: BoxConstraints(
-        maxHeight: AppConstants.mediaMaxHeight,
-        minHeight: AppConstants.mediaMinHeight,
-        maxWidth: double.infinity,
-        minWidth: double.infinity,
+    return GestureDetector(
+      onTap: () => onTapMedia(index),
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxHeight: AppConstants.mediaMaxHeight,
+          minHeight: AppConstants.mediaMinHeight,
+          maxWidth: double.infinity,
+          minWidth: double.infinity,
+        ),
+        child: isVideoUrl
+            ? XCachedVideo(videoUrl: url)
+            : XImageNetwork(url, fit: BoxFit.cover),
       ),
-      child: isVideoUrl
-          ? XCachedVideo(videoUrl: url)
-          : XImageNetwork(url, fit: BoxFit.cover),
     );
   }
-// Widget _renderSingleMedia(String url) {
-//   final isVideoUrl = url.split(".").lastOrNull?.contains("mp4") ?? false;
-
-//   if (!isVideoUrl) {
-//     return XImageNetwork(url, fit: BoxFit.cover);
-//   }
-
-//   return LayoutBuilder(
-//     builder: (context, constraints) {
-//       return ConstrainedBox(
-//         constraints: BoxConstraints(
-//           maxHeight: AppConstants.mediaMaxHeight,
-//         ),
-//         child: FittedBox(
-//           fit: BoxFit.contain,
-//           child: SizedBox(
-//             width: constraints.maxWidth,
-//             child: XCachedVideo(videoUrl: url),
-//           ),
-//         ),
-//       );
-//     },
-//   );
-// }
-
 
   Widget _renderDoubleMedias() {
     return ConstrainedBox(
@@ -75,9 +58,9 @@ class XMediaLayoutView extends StatelessWidget {
       child: IntrinsicHeight(
         child: Row(
           children: [
-            Expanded(child: _renderSingleMedia(listMediaUrl.first)),
+            Expanded(child: _renderSingleMedia(listMediaUrl.first, index: 0)),
             SizedBox(width: AppPadding.p4),
-            Expanded(child: _renderSingleMedia(listMediaUrl.last)),
+            Expanded(child: _renderSingleMedia(listMediaUrl.last, index: 1)),
           ],
         ),
       ),
@@ -93,14 +76,18 @@ class XMediaLayoutView extends StatelessWidget {
       child: IntrinsicHeight(
         child: Row(
           children: [
-            Expanded(child: _renderSingleMedia(listMediaUrl.first)),
+            Expanded(child: _renderSingleMedia(listMediaUrl.first, index: 0)),
             SizedBox(width: AppPadding.p4),
             Expanded(
               child: Column(
                 children: [
-                  Expanded(child: _renderSingleMedia(listMediaUrl.last)),
+                  Expanded(
+                    child: _renderSingleMedia(listMediaUrl[1], index: 1),
+                  ),
                   SizedBox(height: AppPadding.p4),
-                  Expanded(child: _renderSingleMedia(listMediaUrl.last)),
+                  Expanded(
+                    child: _renderSingleMedia(listMediaUrl.last, index: 2),
+                  ),
                 ],
               ),
             ),
@@ -122,9 +109,13 @@ class XMediaLayoutView extends StatelessWidget {
             Expanded(
               child: Column(
                 children: [
-                  Expanded(child: _renderSingleMedia(listMediaUrl.first)),
+                  Expanded(
+                    child: _renderSingleMedia(listMediaUrl.first, index: 0),
+                  ),
                   SizedBox(height: AppPadding.p4),
-                  Expanded(child: _renderSingleMedia(listMediaUrl.first)),
+                  Expanded(
+                    child: _renderSingleMedia(listMediaUrl[1], index: 1),
+                  ),
                 ],
               ),
             ),
@@ -132,9 +123,13 @@ class XMediaLayoutView extends StatelessWidget {
             Expanded(
               child: Column(
                 children: [
-                  Expanded(child: _renderSingleMedia(listMediaUrl.last)),
+                  Expanded(
+                    child: _renderSingleMedia(listMediaUrl[2], index: 2),
+                  ),
                   SizedBox(height: AppPadding.p4),
-                  Expanded(child: _renderSingleMedia(listMediaUrl.last)),
+                  Expanded(
+                    child: _renderSingleMedia(listMediaUrl.last, index: 3),
+                  ),
                 ],
               ),
             ),

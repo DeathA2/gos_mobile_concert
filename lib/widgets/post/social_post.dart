@@ -3,6 +3,7 @@ import 'package:mobile_concert/generated/assets/assets.gen.dart';
 import 'package:mobile_concert/src/config/constants/constants.dart';
 import 'package:mobile_concert/src/network/model/post.dart';
 import 'package:mobile_concert/src/network/model/user.dart';
+import 'package:mobile_concert/src/router/coordinator.dart';
 import 'package:mobile_concert/src/theme/colors.dart';
 import 'package:mobile_concert/src/theme/styles.dart';
 import 'package:mobile_concert/src/theme/values.dart';
@@ -101,7 +102,14 @@ class _XSocialPostState extends State<XSocialPost> {
     if (widget.postInfo.isStream) {
       return _renderStreamView();
     }
-    return XMediaLayoutView(listMediaUrl: widget.postInfo.medias);
+    return XMediaLayoutView(
+      listMediaUrl: widget.postInfo.medias,
+      onTapMedia: (index) => AppCoordinator.showMediaDetail(
+        widget.postInfo.medias,
+        post: widget.postInfo,
+        index: index,
+      ),
+    );
   }
 
   Widget _renderStreamView() {

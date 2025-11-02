@@ -63,6 +63,7 @@ class AppRouter {
           return PhotoViewPage(
             galleryItems: extra.galleryItems,
             initialIndex: extra.initialIndex,
+            postInfor: extra.infor,
           );
         },
       ),

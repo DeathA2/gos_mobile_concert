@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mobile_concert/src/network/model/post.dart';
+import 'package:mobile_concert/src/router/extras/photo_view_extra.dart';
 import 'package:mobile_concert/src/router/route_name.dart';
 import 'package:mobile_concert/src/router/router.dart';
 
@@ -49,4 +51,13 @@ class AppCoordinator {
 
   static Future<T?> showProfile<T extends Object?>() =>
       context.pushNamed<T>(AppRouteNames.profile.name);
+
+  static void showMediaDetail(
+    List<String> listMedia, {
+    required Post post,
+    int index = 0,
+  }) => context.pushNamed(
+    AppRouteNames.photoView.name,
+    extra: PhotoViewExtra(listMedia, infor: post, initialIndex: index),
+  );
 }
