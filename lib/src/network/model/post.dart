@@ -1,44 +1,57 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 import 'package:mobile_concert/src/network/model/user.dart';
 
-class Post extends Equatable {
+class MPost extends Equatable {
   final String id;
   final String content;
   final List<String> medias;
   final bool isStream;
   final DateTime createAt;
-  final User owner;
-  const Post({
+  final String owner;
+  final MUser? ownerUser;
+
+  const MPost({
     required this.id,
     required this.content,
     required this.medias,
     required this.isStream,
     required this.createAt,
     required this.owner,
+    this.ownerUser,
   });
 
   @override
-  List<Object?> get props => [id, content, medias, isStream, createAt, owner];
+  List<Object?> get props => [
+    id,
+    content,
+    medias,
+    isStream,
+    createAt,
+    owner,
+    ownerUser,
+  ];
 
-  Post copyWith({
+  MPost copyWith({
     String? id,
     String? content,
     List<String>? medias,
     bool? isStream,
     DateTime? createAt,
-    User? owner,
+    String? owner,
+    MUser? ownerUser,
   }) {
-    return Post(
+    return MPost(
       id: id ?? this.id,
       content: content ?? this.content,
       medias: medias ?? this.medias,
       isStream: isStream ?? this.isStream,
       createAt: createAt ?? this.createAt,
       owner: owner ?? this.owner,
+      ownerUser: ownerUser ?? this.ownerUser,
     );
   }
 
@@ -47,33 +60,42 @@ class Post extends Equatable {
       'id': id,
       'content': content,
       'medias': medias,
-      'isStream': isStream,
-      'createAt': createAt.millisecondsSinceEpoch,
-      'owner': owner.toMap(),
+      'is_stream': isStream,
+      'created_at': createAt.millisecondsSinceEpoch,
+      'owner': owner,
     };
   }
 
-  factory Post.fromMap(Map<String, dynamic> map) {
-    return Post(
+  factory MPost.fromMap(Map<String, dynamic> map) {
+    return MPost(
       id: map['id'] as String,
       content: map['content'] as String,
-      medias: List<String>.from((map['medias'] as List<String>)),
-      isStream: map['isStream'] as bool,
-      createAt: DateTime.fromMillisecondsSinceEpoch(map['createAt'] as int),
-      owner: User.fromMap(map['owner'] as Map<String, dynamic>),
+      medias: List<String>.from((map['medias'] as List<dynamic>)),
+      isStream: map['is_stream'] as bool,
+      createAt: DateTime.fromMillisecondsSinceEpoch(map['created_at'] as int),
+      owner: map['owner'] as String,
+    );
+  }
+
+  factory MPost.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> snapshot) {
+    final map = snapshot.data()!;
+    return MPost(
+      id: snapshot.id,
+      content: map['content'] as String,
+      medias: List<String>.from((map['medias'] as List<dynamic>)),
+      isStream: map['is_stream'] as bool,
+      createAt: (map['created_at'] as Timestamp).toDate(),
+      owner: map['owner'] as String,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Post.fromJson(String source) =>
-      Post.fromMap(json.decode(source) as Map<String, dynamic>);
-
-  @override
-  bool get stringify => true;
+  factory MPost.fromJson(String source) =>
+      MPost.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
-    return 'Post{id=$id, content=$content, medias=$medias, isStream=$isStream, createAt=$createAt, owner=$owner}';
+    return 'MPost{id=$id, content=$content, medias=$medias, isStream=$isStream, createAt=$createAt, owner=$owner}';
   }
 }

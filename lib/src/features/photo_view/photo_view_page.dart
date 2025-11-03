@@ -23,7 +23,7 @@ class PhotoViewPage extends StatefulWidget {
   });
   final int initialIndex;
   final List<String> galleryItems;
-  final Post postInfor;
+  final MPost postInfor;
 
   @override
   State<StatefulWidget> createState() {
@@ -164,16 +164,17 @@ class _PhotoViewPageState extends State<PhotoViewPage> {
   Widget _renderPostInfor() {
     return Column(
       children: [
-        _userInfo(
-          widget.postInfor.owner,
-          createTime: widget.postInfor.createAt,
-        ),
+        if (widget.postInfor.ownerUser != null)
+          _userInfo(
+            widget.postInfor.ownerUser!,
+            createTime: widget.postInfor.createAt,
+          ),
         _postBody(widget.postInfor.content),
       ],
     );
   }
 
-  Widget _userInfo(User owner, {required DateTime createTime}) {
+  Widget _userInfo(MUser owner, {required DateTime createTime}) {
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: Row(

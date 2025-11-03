@@ -2,6 +2,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mobile_concert/src/features/home/cubit/home_cubit.dart';
 import 'package:mobile_concert/src/features/settings/logic/setting_bloc.dart';
 import 'package:mobile_concert/src/router/router.dart';
 import 'package:mobile_concert/src/theme/screen.dart';
@@ -15,7 +16,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     AppScreens.mediaQuery = MediaQuery.of(context);
     return MultiBlocProvider(
-      providers: [BlocProvider(create: (_) => SettingBloc())],
+      providers: [
+        BlocProvider(create: (_) => SettingBloc()),
+        BlocProvider(lazy: false, create: (_) => HomeCubit()),
+      ],
       child: BlocBuilder<SettingBloc, SettingState>(
         builder: (context, state) {
           return MaterialApp.router(

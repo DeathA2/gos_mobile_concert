@@ -54,7 +54,7 @@ class AppCoordinator {
 
   static void showMediaDetail(
     List<String> listMedia, {
-    required Post post,
+    required MPost post,
     int index = 0,
   }) => context.pushNamed(
     AppRouteNames.photoView.name,

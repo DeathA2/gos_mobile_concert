@@ -50,19 +50,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCzzGObxWUTHWCHrgD8d4Gz0iR-HDUfr8g',
-    appId: '1:497213111153:android:adabfbb3aa57e314f794d0',
-    messagingSenderId: '497213111153',
-    projectId: 'mobile-concert',
-    storageBucket: 'mobile-concert.firebasestorage.app',
+    apiKey: 'AIzaSyBo5wDlKatiXgovkxSyg17kg0_PRA5t7EM',
+    appId: '1:804088272401:android:35b0c1c60f1e98f19483b0',
+    messagingSenderId: '804088272401',
+    projectId: 'mobile-zeta-concert',
+    storageBucket: 'mobile-zeta-concert.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBq_7Jlq0lUNVRKoE2yRYdGelE3r1y289k',
     appId: '1:497213111153:ios:1bd83c2c19dd3573f794d0',
-    messagingSenderId: '497213111153',
-    projectId: 'mobile-concert',
-    storageBucket: 'mobile-concert.firebasestorage.app',
+    messagingSenderId: '804088272401',
+    projectId: 'mobile-zeta-concert',
+    storageBucket: 'mobile-zeta-concert.firebasestorage.app',
     iosBundleId: 'com.example.mobileConcert',
   );
 }

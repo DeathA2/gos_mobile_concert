@@ -68,6 +68,6 @@ class AppRouter {
         },
       ),
     ],
-    errorBuilder: (_, __) => const NotFoundView(),
+    errorBuilder: (_, _) => const NotFoundView(),
   );
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_concert/src/network/mock/mock_data.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_concert/src/features/home/cubit/home_cubit.dart';
 import 'package:mobile_concert/widgets/post/social_post.dart';
 
 class HomeView extends StatelessWidget {
@@ -11,10 +12,16 @@ class HomeView extends StatelessWidget {
       child: Scaffold(
         body: CustomScrollView(
           slivers: [
-            SliverList.builder(
-              itemCount: MockData.listPost.length,
-              itemBuilder: (_, index) =>
-                  XSocialPost(postInfo: MockData.listPost[index]),
+            BlocBuilder<HomeCubit, HomeState>(
+              buildWhen: (previous, current) =>
+                  previous.listPost != current.listPost,
+              builder: (context, state) {
+                return SliverList.builder(
+                  itemCount: state.listPost.length,
+                  itemBuilder: (_, index) =>
+                      XSocialPost(postInfo: state.listPost[index]),
+                );
+              },
             ),
           ],
         ),
