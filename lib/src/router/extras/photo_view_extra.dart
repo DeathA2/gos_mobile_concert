@@ -8,5 +8,5 @@ class PhotoViewExtra {
   });
   final int initialIndex;
   final List<String> galleryItems;
-  final Post infor;
+  final MPost infor;
 }

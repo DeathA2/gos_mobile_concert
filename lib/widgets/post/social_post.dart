@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_concert/generated/assets/assets.gen.dart';
 import 'package:mobile_concert/src/config/constants/constants.dart';
+import 'package:mobile_concert/src/config/env/env.dart';
 import 'package:mobile_concert/src/network/model/post.dart';
 import 'package:mobile_concert/src/network/model/user.dart';
 import 'package:mobile_concert/src/router/coordinator.dart';
@@ -12,7 +13,7 @@ import 'package:mobile_concert/widgets/avatar/avatar.dart';
 import 'package:mobile_concert/widgets/post/media_layout_view.dart';
 
 class XSocialPost extends StatefulWidget {
-  final Post postInfo;
+  final MPost postInfo;
 
   const XSocialPost({super.key, required this.postInfo});
 
@@ -21,11 +22,11 @@ class XSocialPost extends StatefulWidget {
 }
 
 class _XSocialPostState extends State<XSocialPost> {
-  late User userInfo;
+  late MUser? userInfo;
 
   @override
   void initState() {
-    userInfo = widget.postInfo.owner;
+    userInfo = widget.postInfo.ownerUser;
     super.initState();
   }
 
@@ -62,7 +63,7 @@ class _XSocialPostState extends State<XSocialPost> {
   }
 
   Widget _renderAvatar() {
-    return XAvatar(url: userInfo.avatar, imageSize: 36.0, borderWidth: 0.0);
+    return XAvatar(url: userInfo?.avatar, imageSize: 36.0, borderWidth: 0.0);
   }
 
   Widget _renderUserInfo() {
@@ -72,7 +73,7 @@ class _XSocialPostState extends State<XSocialPost> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(userInfo.name, style: AppStyles.title),
+        Text(userInfo?.name ?? '', style: AppStyles.title),
         Text(postTime, style: AppStyles.inputStyle),
       ],
     );
@@ -102,10 +103,13 @@ class _XSocialPostState extends State<XSocialPost> {
     if (widget.postInfo.isStream) {
       return _renderStreamView();
     }
+    List<String> medias = widget.postInfo.medias
+        .map((e) => ENV.I.imageURL + e)
+        .toList();
     return XMediaLayoutView(
-      listMediaUrl: widget.postInfo.medias,
+      listMediaUrl: medias,
       onTapMedia: (index) => AppCoordinator.showMediaDetail(
-        widget.postInfo.medias,
+        medias,
         post: widget.postInfo,
         index: index,
       ),

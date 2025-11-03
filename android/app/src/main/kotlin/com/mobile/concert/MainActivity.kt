@@ -1,4 +1,4 @@
-package com.example.mobile_concert
+package com.mobile.concert
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,40 +1,21 @@
 {
   "project_info": {
-    "project_number": "497213111153",
-    "project_id": "mobile-concert",
-    "storage_bucket": "mobile-concert.firebasestorage.app"
+    "project_number": "804088272401",
+    "project_id": "mobile-zeta-concert",
+    "storage_bucket": "mobile-zeta-concert.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:497213111153:android:5bd5fb20a9368309f794d0",
+        "mobilesdk_app_id": "1:804088272401:android:35b0c1c60f1e98f19483b0",
         "android_client_info": {
-          "package_name": "com.example.gos_mobile_concert"
+          "package_name": "com.mobile.concert"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCzzGObxWUTHWCHrgD8d4Gz0iR-HDUfr8g"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:497213111153:android:adabfbb3aa57e314f794d0",
-        "android_client_info": {
-          "package_name": "com.example.mobile_concert"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCzzGObxWUTHWCHrgD8d4Gz0iR-HDUfr8g"
+          "current_key": "AIzaSyBo5wDlKatiXgovkxSyg17kg0_PRA5t7EM"
         }
       ],
       "services": {

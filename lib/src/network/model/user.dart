@@ -1,14 +1,15 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
-class User extends Equatable {
+class MUser extends Equatable {
   final String id;
   final String name;
   final String avatar;
-  const User({required this.id, required this.name, required this.avatar});
+  const MUser({required this.id, required this.name, required this.avatar});
 
-  User copyWith({String? id, String? name, String? avatar}) {
-    return User(
+  MUser copyWith({String? id, String? name, String? avatar}) {
+    return MUser(
       id: id ?? this.id,
       name: name ?? this.name,
       avatar: avatar ?? this.avatar,
@@ -19,9 +20,18 @@ class User extends Equatable {
     return <String, dynamic>{'id': id, 'name': name, 'avatar': avatar};
   }
 
-  factory User.fromMap(Map<String, dynamic> map) {
-    return User(
+  factory MUser.fromMap(Map<String, dynamic> map) {
+    return MUser(
       id: map['id'] as String,
+      name: map['name'] as String,
+      avatar: map['avatar'] as String,
+    );
+  }
+
+  factory MUser.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> snapshot) {
+    final map = snapshot.data()!;
+    return MUser(
+      id: snapshot.id,
       name: map['name'] as String,
       avatar: map['avatar'] as String,
     );
@@ -29,21 +39,11 @@ class User extends Equatable {
 
   String toJson() => json.encode(toMap());
 
-  factory User.fromJson(String source) =>
-      User.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory MUser.fromJson(String source) =>
+      MUser.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => 'User(id: $id, name: $name, avatar: $avatar)';
-
-  @override
-  bool operator ==(covariant User other) {
-    if (identical(this, other)) return true;
-
-    return other.id == id && other.name == name && other.avatar == avatar;
-  }
-
-  @override
-  int get hashCode => id.hashCode ^ name.hashCode ^ avatar.hashCode;
+  String toString() => 'MUser(id: $id, name: $name, avatar: $avatar)';
 
   @override
   List<Object?> get props => [id, name, avatar];
