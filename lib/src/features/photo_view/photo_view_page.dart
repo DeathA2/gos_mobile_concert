@@ -4,12 +4,15 @@ import 'package:flutter/services.dart';
 import 'package:mobile_concert/generated/assets/assets.gen.dart';
 import 'package:mobile_concert/src/network/model/post.dart';
 import 'package:mobile_concert/src/network/model/user.dart';
+import 'package:mobile_concert/src/router/coordinator.dart';
+import 'package:mobile_concert/src/services/local_cache_manager.dart';
 import 'package:mobile_concert/src/theme/colors.dart';
 import 'package:mobile_concert/src/theme/styles.dart';
 import 'package:mobile_concert/src/theme/values.dart';
 import 'package:mobile_concert/src/utils/date/date_helper.dart';
 import 'package:mobile_concert/widgets/avatar/avatar.dart';
 import 'package:mobile_concert/widgets/common/indicator.dart';
+import 'package:mobile_concert/widgets/image/image_network.dart';
 import 'package:mobile_concert/widgets/image/svg_custom.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
@@ -44,6 +47,10 @@ class _PhotoViewPageState extends State<PhotoViewPage> {
       DeviceOrientation.portraitUp,
     ]);
     pageController = PageController(initialPage: widget.initialIndex);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _precacheAroundIndex(widget.initialIndex);
+    });
   }
 
   @override
@@ -57,6 +64,37 @@ class _PhotoViewPageState extends State<PhotoViewPage> {
     setState(() {
       currentIndex = index;
     });
+
+    _precacheAroundIndex(index);
+  }
+
+  Future<void> _precacheAroundIndex(int index) async {
+    final contextRef = context;
+    final urls = widget.galleryItems;
+
+    Future<void> precache(String url) async {
+      await precacheImage(
+        CachedNetworkImageProvider(
+          url,
+          cacheKey: url,
+          cacheManager: LocalCacheManager.instance,
+        ),
+        contextRef,
+      );
+    }
+
+    // preload current
+    await precache(urls[index]);
+
+    // preload previous
+    if (index > 0) {
+      await precache(urls[index - 1]);
+    }
+
+    // preload next
+    if (index < urls.length - 1) {
+      await precache(urls[index + 1]);
+    }
   }
 
   @override
@@ -84,12 +122,16 @@ class _PhotoViewPageState extends State<PhotoViewPage> {
               loadingBuilder: (context, event) => const XIndicator(),
               pageController: pageController,
               onPageChanged: onPageChanged,
+              wantKeepAlive: true,
             ),
           ),
-          const Positioned(
-            top: 64,
+          Positioned(
+            top: 16,
             left: 16,
-            child: BackButton(color: Colors.white),
+            child: BackButton(
+              color: Colors.white,
+              onPressed: () => AppCoordinator.pop(),
+            ),
           ),
           Positioned(
             top: _screenHeight / 2,
@@ -110,8 +152,18 @@ class _PhotoViewPageState extends State<PhotoViewPage> {
   PhotoViewGalleryPageOptions _buildItem(BuildContext context, int index) {
     final String item = widget.galleryItems[index];
 
-    return PhotoViewGalleryPageOptions(
-      imageProvider: CachedNetworkImageProvider(item),
+    // return PhotoViewGalleryPageOptions(
+    //   imageProvider: CachedNetworkImageProvider(
+    //     item,
+    //     cacheKey: item,
+    //     cacheManager: LocalCacheManager.instance,
+    //   ),
+    //   initialScale: PhotoViewComputedScale.contained,
+    //   minScale: PhotoViewComputedScale.contained,
+    //   maxScale: PhotoViewComputedScale.covered * 1.5,
+    // );
+    return PhotoViewGalleryPageOptions.customChild(
+      child: XImageNetwork(item, key: ValueKey(item)),
       initialScale: PhotoViewComputedScale.contained,
       minScale: PhotoViewComputedScale.contained,
       maxScale: PhotoViewComputedScale.covered * 1.5,

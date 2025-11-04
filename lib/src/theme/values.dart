@@ -20,3 +20,9 @@ class AppPadding {
   static double p8 = 8.0;
   static double p12 = 12.0;
 }
+
+class AppFontSize {
+  static double f24 = 24.0;
+  static double f30 = 30.0;
+  static double f36 = 36.0;
+}

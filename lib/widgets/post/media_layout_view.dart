@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_concert/src/config/constants/constants.dart';
+import 'package:mobile_concert/src/theme/colors.dart';
+import 'package:mobile_concert/src/theme/styles.dart';
 import 'package:mobile_concert/src/theme/values.dart';
 import 'package:mobile_concert/widgets/image/image_network.dart';
 import 'package:mobile_concert/widgets/video/video_network.dart';
@@ -128,12 +130,38 @@ class XMediaLayoutView extends StatelessWidget {
                   ),
                   SizedBox(height: AppPadding.p4),
                   Expanded(
-                    child: _renderSingleMedia(listMediaUrl.last, index: 3),
+                    child: Stack(
+                      children: [
+                        _renderSingleMedia(listMediaUrl[3], index: 3),
+                        (listMediaUrl.length > 4)
+                            ? _renderMoreMediaLayout(listMediaUrl.length - 4)
+                            : SizedBox.shrink(),
+                      ],
+                    ),
                   ),
                 ],
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _renderMoreMediaLayout(int remainCount) {
+    return Positioned.fill(
+      child: IgnorePointer(
+        child: Container(
+          color: AppColors.black3.withAlpha(200),
+          child: Center(
+            child: Text(
+              "+$remainCount",
+              style: AppStyles.titleLarge.copyWith(
+                fontSize: AppFontSize.f30,
+                color: AppColors.white,
+              ),
+            ),
+          ),
         ),
       ),
     );
