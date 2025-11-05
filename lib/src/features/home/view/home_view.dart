@@ -18,8 +18,10 @@ class HomeView extends StatelessWidget {
               builder: (context, state) {
                 return SliverList.builder(
                   itemCount: state.listPost.length,
-                  itemBuilder: (_, index) =>
-                      XSocialPost(postInfo: state.listPost[index]),
+                  itemBuilder: (_, index) => XSocialPost(
+                    key: Key(state.listPost[index].id),
+                    postInfo: state.listPost[index],
+                  ),
                 );
               },
             ),

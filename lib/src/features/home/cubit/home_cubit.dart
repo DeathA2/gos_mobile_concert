@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_concert/src/network/data/post/post_repository_impl.dart';
@@ -14,9 +17,11 @@ class HomeCubit extends Cubit<HomeState> {
   final userRepo = UserRepositoryImpl();
   final postRepo = PostRepositoryImpl();
 
+  StreamSubscription<QuerySnapshot<MPost>>? listenPostStream;
+
   Future<void> _syncData() async {
     await _getListUser();
-    _getListPost();
+    _listenPostsChange();
   }
 
   Future<void> _getListUser() async {
@@ -24,15 +29,23 @@ class HomeCubit extends Cubit<HomeState> {
     emit(state.copyWith(listUser: listUser.data ?? []));
   }
 
-  Future<void> _getListPost() async {
-    final listPost = await postRepo.getAllPosts();
-    final newPost = listPost.data?.map((post) {
-      final ownerUser = state.listUser.firstWhere(
-        (user) => user.id == post.owner,
-        orElse: () => MUser(id: '', name: 'Unknown', avatar: ''),
-      );
-      return post.copyWith(ownerUser: ownerUser);
-    }).toList();
-    emit(state.copyWith(listPost: newPost ?? []));
+  void _listenPostsChange() {
+    listenPostStream = postRepo.getStreamAllPost().listen((snapshot) {
+      final updatedPosts = snapshot.docs.map((doc) {
+        final post = doc.data();
+        final ownerUser = state.listUser.firstWhere(
+          (user) => user.id == post.owner,
+          orElse: () => MUser(id: '', name: 'Unknown', avatar: ''),
+        );
+        return post.copyWith(ownerUser: ownerUser);
+      }).toList();
+      emit(state.copyWith(listPost: updatedPosts));
+    });
+  }
+
+  @override
+  Future<void> close() {
+    listenPostStream?.cancel();
+    return super.close();
   }
 }

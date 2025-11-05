@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mobile_concert/src/network/data/post/post_reference.dart';
 import 'package:mobile_concert/src/network/data/post/post_repository.dart';
 import 'package:mobile_concert/src/network/model/common/result.dart';
@@ -9,5 +10,15 @@ class PostRepositoryImpl extends PostRepository {
   @override
   Future<MResult<List<MPost>>> getAllPosts() {
     return postsRef.getPosts();
+  }
+
+  @override
+  Stream<QuerySnapshot<MPost>> getStreamAllPost() {
+    return postsRef.snapshotsAll();
+  }
+
+  @override
+  Stream<DocumentSnapshot<MPost>> getStreamPostById(String postId) {
+    return postsRef.snapshots(postId);
   }
 }
