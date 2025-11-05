@@ -40,7 +40,6 @@ class _XCachedVideoState extends State<XCachedVideo> {
 
   Future<void> _initVideo() async {
     try {
-      // Tạo CachedVideoPlayerPlus controller
       _cachedPlayer = CachedVideoPlayerPlus.networkUrl(
         Uri.parse(widget.videoUrl),
         invalidateCacheIfOlderThan: const Duration(days: 7),
@@ -48,11 +47,13 @@ class _XCachedVideoState extends State<XCachedVideo> {
 
       await _cachedPlayer.initialize();
 
-      // Tạo Chewie controller từ CachedVideoPlayerPlus
       _chewieController = ChewieController(
         videoPlayerController: _cachedPlayer.controller,
         autoPlay: widget.autoPlay,
         looping: widget.loop,
+        showControlsOnInitialize: false,
+        materialSeekButtonSize: 20,
+        showOptions: false,
         aspectRatio:
             widget.aspectRatio ?? _cachedPlayer.controller.value.aspectRatio,
         errorBuilder: (context, errorMessage) {

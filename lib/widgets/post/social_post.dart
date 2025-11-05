@@ -153,7 +153,7 @@ class _XSocialPostState extends State<XSocialPost> {
       return _renderStreamView();
     }
     List<String> medias = widget.postInfo.medias
-        .map((e) => ENV.I.imageURL + e)
+        .map((e) => !e.contains("http") ? ENV.I.imageURL + e : e)
         .toList();
     return XMediaLayoutView(
       listMediaUrl: medias,
