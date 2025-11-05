@@ -59,8 +59,6 @@ class _XSocialPostState extends State<XSocialPost> {
         _renderReactionSection(),
         _renderLikeContent(),
         _renderPostContent(),
-        // TODO: Add later
-        // _renderCommentSection()
       ],
     );
   }
@@ -160,11 +158,12 @@ class _XSocialPostState extends State<XSocialPost> {
         .toList();
     return XMediaLayoutView(
       listMediaUrl: medias,
-      onTapMedia: (index) => AppCoordinator.showMediaDetail(
-        medias,
-        post: widget.postInfo,
-        index: index,
-      ),
+      onTapMedia: (index) => {},
+      // onTapMedia: (index) => AppCoordinator.showMediaDetail(
+      //   medias,
+      //   post: widget.postInfo,
+      //   index: index,
+      // ),
       onPageChanged: (index) {
         setState(() => currentIndex = index);
       },
