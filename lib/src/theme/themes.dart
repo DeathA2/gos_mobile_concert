@@ -30,7 +30,7 @@ class AppTheme {
     appBarTheme: const AppBarTheme(
       // default system appbar icon is white
       backgroundColor: AppColors.primary,
-      foregroundColor: Colors.white,
+      foregroundColor: Colors.black,
     ),
 
     /// input
