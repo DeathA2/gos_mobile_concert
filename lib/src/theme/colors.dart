@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   // primary
-  static const primary = Color(0xfffe48bb);
+  static const primary = Colors.white;
   static const text = Color(0xFF404040);
   static const textSecondary = Color(0xFF444444);
   static const link = Color(0xFF0064FF);
   static const divider = Color(0xFFEFEFEF);
-  static const scaffoldBackgroundColor = Color(0xFFF8F6EE);
+  static const scaffoldBackgroundColor = Colors.white;
   static const background = Color.fromARGB(255, 249, 247, 242);
   // black
   static const black = Colors.black;

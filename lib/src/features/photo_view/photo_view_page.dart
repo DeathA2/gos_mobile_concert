@@ -180,7 +180,7 @@ class _PhotoViewPageState extends State<PhotoViewPage> {
         children: [
           _reactionItem(
             XSvgCustom(
-              svgPath: Assets.svgs.icHeart,
+              svgPath: Assets.svgs.icFavourite,
               svgWidth: AppSizes.s30,
               svgColor: AppColors.white,
             ),
@@ -188,7 +188,15 @@ class _PhotoViewPageState extends State<PhotoViewPage> {
           ),
           _reactionItem(
             XSvgCustom(
-              svgPath: Assets.svgs.icChat,
+              svgPath: Assets.svgs.icComment,
+              svgWidth: AppSizes.s30,
+              svgColor: AppColors.white,
+            ),
+            reactCount: 100,
+          ),
+          _reactionItem(
+            XSvgCustom(
+              svgPath: Assets.svgs.icMessenger,
               svgWidth: AppSizes.s30,
               svgColor: AppColors.white,
             ),

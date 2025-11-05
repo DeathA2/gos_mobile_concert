@@ -353,6 +353,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  dots_indicator:
+    dependency: "direct main"
+    description:
+      name: dots_indicator
+      sha256: c070af5058a084ba7b354df4b4c26c719595d70a3531eea6edd8af8716684ba3
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.1"
   equatable:
     dependency: "direct main"
     description:
@@ -529,14 +537,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.1"
-  flashy_tab_bar2:
-    dependency: "direct main"
-    description:
-      name: flashy_tab_bar2
-      sha256: "4c2a8cb2b3f96e84a6baf4fd6e20801fbdf7ebc027d8d8d9d13a0ab8907f7bec"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.10"
   flutter:
     dependency: "direct main"
     description: flutter
