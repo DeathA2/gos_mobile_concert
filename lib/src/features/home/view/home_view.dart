@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_concert/generated/assets/assets.gen.dart';
 import 'package:mobile_concert/src/features/home/cubit/home_cubit.dart';
+import 'package:mobile_concert/src/theme/values.dart';
 import 'package:mobile_concert/widgets/post/social_post.dart';
 
 class HomeView extends StatelessWidget {
@@ -18,9 +19,16 @@ class HomeView extends StatelessWidget {
             Assets.svgs.icMessenger.svg(width: 24, height: 24),
             const SizedBox(width: 16),
           ],
-          title: const Text(
-            'Mobile Team',
-            style: TextStyle(fontWeight: FontWeight.w500),
+          title: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Assets.images.appIcon.image(width: AppSizes.s24),
+              SizedBox(width: AppPadding.p8),
+              const Text(
+                'GOS Mobile',
+                style: TextStyle(fontWeight: FontWeight.w500),
+              ),
+            ],
           ),
         ),
         body: CustomScrollView(

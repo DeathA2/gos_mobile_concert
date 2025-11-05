@@ -84,7 +84,6 @@ flutter_gen:
   integrations:
     flutter_svg: true
     lottie: true
-  flutter_launcher_icons: ^0.14.4
 
 flutter_launcher_icons:
   android: "launcher_icon"
