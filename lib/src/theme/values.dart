@@ -1,5 +1,6 @@
 class AppSizes {
   static double s16 = 16.0;
+  static double s24 = 24.0;
   static double s30 = 30.0;
   static double s40 = 40.0;
   static double s50 = 50.0;
@@ -19,4 +20,10 @@ class AppPadding {
   static double p4 = 4.0;
   static double p8 = 8.0;
   static double p12 = 12.0;
+}
+
+class AppFontSize {
+  static double f24 = 24.0;
+  static double f30 = 30.0;
+  static double f36 = 36.0;
 }

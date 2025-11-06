@@ -1,11 +1,13 @@
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:mobile_concert/generated/assets/assets.gen.dart';
 import 'package:mobile_concert/src/config/constants/constants.dart';
 import 'package:mobile_concert/src/config/env/env.dart';
 import 'package:mobile_concert/src/network/model/post.dart';
 import 'package:mobile_concert/src/network/model/user.dart';
-import 'package:mobile_concert/src/router/coordinator.dart';
 import 'package:mobile_concert/src/theme/colors.dart';
+import 'package:mobile_concert/src/theme/screen.dart';
 import 'package:mobile_concert/src/theme/styles.dart';
 import 'package:mobile_concert/src/theme/values.dart';
 import 'package:mobile_concert/src/utils/date/date_helper.dart';
@@ -23,6 +25,7 @@ class XSocialPost extends StatefulWidget {
 
 class _XSocialPostState extends State<XSocialPost> {
   late MUser? userInfo;
+  int currentIndex = 0;
 
   @override
   void initState() {
@@ -32,16 +35,53 @@ class _XSocialPostState extends State<XSocialPost> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(border: Border(bottom: BorderSide())),
-      child: Column(
-        children: [
-          _renderUserInfoSection(),
-          _renderPostSection(),
-          _renderReactionSection(),
-          // TODO: Add later
-          // _renderCommentSection()
+    return Column(
+      children: [
+        _renderUserInfoSection(),
+        SizedBox.square(dimension: AppScreens.width, child: _renderPostMedia()),
+        if (widget.postInfo.medias.length > 1) ...[
+          const SizedBox(height: 6),
+          DotsIndicator(
+            dotsCount: widget.postInfo.medias.length,
+            position: currentIndex.toDouble(),
+            animate: true,
+            decorator: DotsDecorator(
+              size: Size.square(6),
+              activeSize: Size.square(6),
+              spacing: EdgeInsets.symmetric(horizontal: 2.0),
+              color: Colors.black.withValues(alpha: 0.15),
+              activeColor: Color(0xFF3897F0),
+            ),
+          ),
         ],
+        const SizedBox(height: 4),
+        _renderReactionSection(),
+        _renderLikeContent(),
+        _renderPostContent(),
+      ],
+    );
+  }
+
+  Widget _renderLikeContent() {
+    return Container(
+      padding: EdgeInsets.fromLTRB(12, 0, 12, 4),
+      width: double.infinity,
+      child: RichText(
+        textAlign: TextAlign.start,
+        text: TextSpan(
+          children: [
+            TextSpan(text: 'Liked by ', style: AppStyles.body),
+            TextSpan(
+              text: 'Walter',
+              style: AppStyles.body.copyWith(fontWeight: FontWeight.w600),
+            ),
+            TextSpan(text: ' and ', style: AppStyles.body),
+            TextSpan(
+              text: 'others',
+              style: AppStyles.body.copyWith(fontWeight: FontWeight.w600),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -56,14 +96,18 @@ class _XSocialPostState extends State<XSocialPost> {
           SizedBox(width: 8.0),
           Expanded(child: _renderUserInfo()),
           SizedBox(width: 8.0),
-          _renderPostOptions(),
+          Assets.svgs.icMore.svg(width: 28, height: 28),
         ],
       ),
     );
   }
 
   Widget _renderAvatar() {
-    return XAvatar(url: userInfo?.avatar, imageSize: 36.0, borderWidth: 0.0);
+    return XAvatar(
+      url: ENV.I.imageURL + (userInfo?.avatar ?? ""),
+      imageSize: 36.0,
+      borderWidth: 0.0,
+    );
   }
 
   Widget _renderUserInfo() {
@@ -73,21 +117,15 @@ class _XSocialPostState extends State<XSocialPost> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(userInfo?.name ?? '', style: AppStyles.title),
+        Row(
+          children: [
+            Text(userInfo?.name ?? '', style: AppStyles.title),
+            SizedBox(width: 4),
+            Assets.svgs.icVerify.svg(width: 12, height: 12),
+          ],
+        ),
         Text(postTime, style: AppStyles.inputStyle),
       ],
-    );
-  }
-
-  Widget _renderPostOptions() {
-    return Assets.svgs.icOption.svg();
-  }
-
-  Widget _renderPostSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [_renderPostContent(), _renderPostMedia()],
     );
   }
 
@@ -95,7 +133,18 @@ class _XSocialPostState extends State<XSocialPost> {
     return Container(
       padding: const EdgeInsets.only(left: 12.0, right: 12.0, bottom: 12.0),
       width: double.infinity,
-      child: Text(widget.postInfo.content, style: AppStyles.body),
+      child: RichText(
+        text: TextSpan(
+          children: [
+            TextSpan(
+              text: userInfo?.name ?? '',
+              style: AppStyles.title.copyWith(fontWeight: FontWeight.w600),
+            ),
+            TextSpan(text: ' '),
+            TextSpan(text: widget.postInfo.content, style: AppStyles.body),
+          ],
+        ),
+      ),
     );
   }
 
@@ -104,15 +153,19 @@ class _XSocialPostState extends State<XSocialPost> {
       return _renderStreamView();
     }
     List<String> medias = widget.postInfo.medias
-        .map((e) => ENV.I.imageURL + e)
+        .map((e) => !e.contains("http") ? ENV.I.imageURL + e : e)
         .toList();
     return XMediaLayoutView(
       listMediaUrl: medias,
-      onTapMedia: (index) => AppCoordinator.showMediaDetail(
-        medias,
-        post: widget.postInfo,
-        index: index,
-      ),
+      onTapMedia: (index) => {},
+      // onTapMedia: (index) => AppCoordinator.showMediaDetail(
+      //   medias,
+      //   post: widget.postInfo,
+      //   index: index,
+      // ),
+      onPageChanged: (index) {
+        setState(() => currentIndex = index);
+      },
     );
   }
 
@@ -169,19 +222,44 @@ class _XSocialPostState extends State<XSocialPost> {
       padding: EdgeInsetsGeometry.symmetric(horizontal: 12.0, vertical: 8.0),
       child: Row(
         children: [
-          _renderReactionButton(icon: Assets.svgs.icHeart.svg()),
-          _renderReactionButton(icon: Assets.svgs.icChat.svg()),
-          _renderReactionButton(),
-          _renderReactionButton(),
+          _renderReaction(
+            icon: Assets.svgs.icFavouriteActive.path,
+            total: 10,
+            color: Colors.red,
+          ),
+          SizedBox(width: 12),
+          _renderReaction(
+            icon: Assets.svgs.icComment.path,
+            total: 10,
+            color: AppColors.black,
+          ),
+          SizedBox(width: 12),
+          _renderReaction(icon: Assets.svgs.icSlack.path, total: 10),
+          Spacer(),
+          Assets.svgs.icSave.svg(),
         ],
       ),
     );
   }
 
-  Widget _renderReactionButton({Widget? icon}) {
-    if (icon == null) {
-      return Expanded(child: SizedBox.shrink());
-    }
-    return Expanded(child: icon);
+  Widget _renderReaction({
+    required String icon,
+    required int total,
+    Color? color,
+  }) {
+    return Row(
+      children: [
+        SvgPicture.asset(
+          icon,
+          width: 24,
+          height: 24,
+          colorFilter: color != null
+              ? ColorFilter.mode(color, BlendMode.srcIn)
+              : null,
+        ),
+        SizedBox(width: 4),
+        Text('$total', style: TextStyle(fontWeight: FontWeight.w600)),
+      ],
+    );
   }
 }

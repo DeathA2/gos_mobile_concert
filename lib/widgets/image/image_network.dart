@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_concert/src/services/local_cache_manager.dart';
 import 'package:shimmer/shimmer.dart';
 
 class XImageNetwork extends StatelessWidget {
@@ -17,12 +18,14 @@ class XImageNetwork extends StatelessWidget {
     }
 
     return CachedNetworkImage(
+      cacheKey: url,
       imageUrl: url ?? '',
       fit: fit,
       width: width,
       height: height,
       placeholder: (context, url) => _buildPlaceHolder(),
       errorWidget: (context, url, error) => _buildError(),
+      cacheManager: LocalCacheManager.instance,
     );
   }
 
