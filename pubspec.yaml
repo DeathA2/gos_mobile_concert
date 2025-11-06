@@ -2,12 +2,12 @@ name: mobile_concert
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.9.2
+  sdk: ^3.9.0
 
 dependencies:
   # FLUTTER
@@ -47,12 +47,14 @@ dependencies:
   scrollable_positioned_list: ^0.3.8
   cached_video_player_plus: ^4.0.4
   video_player: ^2.10.0
-  chewie: ^1.13.0
+  chewie:
+    ^1.13.0
 
     # STATE MANAGEMENT
   flutter_bloc: ^9.1.1
   go_router: ^16.2.1
-  get_it: ^8.0.3
+  get_it:
+    ^8.0.3
 
     # FIREBASE
   firebase_core: ^4.1.0
