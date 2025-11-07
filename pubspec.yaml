@@ -66,6 +66,7 @@ dependencies:
   flutter_cache_manager: ^3.4.1
   dots_indicator: ^4.0.1
   rename_app: ^1.6.5
+  smooth_page_indicator: ^1.2.1
 
 dev_dependencies:
   flutter_test:
@@ -102,4 +103,23 @@ flutter:
     - assets/images/
     - assets/lotties/
     - assets/svgs/
+    - assets/images/
+    - assets/fonts/
     - .env.production
+
+  fonts:
+    - family: Billabong
+      fonts:
+        - asset: assets/fonts/billabong/billabong.ttf
+          weight: 400
+
+    - family: InstagramSans
+      fonts:
+        - asset: assets/fonts/instagram-sans/instagram-sans-light.ttf
+          weight: 300
+        - asset: assets/fonts/instagram-sans/instagram-sans.ttf
+          weight: 400
+        - asset: assets/fonts/instagram-sans/instagram-sans-medium.ttf
+          weight: 600
+        - asset: assets/fonts/instagram-sans/instagram-sans-bold.ttf
+          weight: 700

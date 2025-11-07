@@ -19,7 +19,7 @@ class UserReference extends BaseCollectionReference<MUser> {
   Future<MResult<List<MUser>>> getUsers() async {
     try {
       final QuerySnapshot<MUser> query = await ref.get().timeout(
-        const Duration(seconds: 10),
+        const Duration(seconds: 20),
       );
       final docs = query.docs.map((e) => e.data()).toList();
       return MResult.success(docs);
