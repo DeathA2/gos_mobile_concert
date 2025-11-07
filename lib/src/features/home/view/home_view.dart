@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_concert/generated/assets/assets.gen.dart';
 import 'package:mobile_concert/generated/assets/fonts.gen.dart';
 import 'package:mobile_concert/src/features/home/cubit/home_cubit.dart';
+import 'package:mobile_concert/src/theme/values.dart';
 import 'package:mobile_concert/widgets/post/social_post.dart';
 
 class HomeView extends StatelessWidget {

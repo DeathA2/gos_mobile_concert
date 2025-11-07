@@ -157,7 +157,7 @@ class _XMediaLayoutViewState extends State<XMediaLayoutView> {
 
   bool _isVideoUrl(String url) {
     final normalized = url.toLowerCase().split('?').first.split('#').first;
-    return normalized.endsWith('.mp4');
+    return normalized.endsWith('.mp4') || normalized.contains("dropbox");
   }
 
   void _prefetchAround(int index) {
@@ -216,9 +216,9 @@ class _MediaPageState extends State<_MediaPage>
           maxWidth: double.infinity,
           minWidth: double.infinity,
         ),
-        child: widget.isVideo
+      child: widget.isVideo
             ? XCachedVideo(videoUrl: widget.url)
-            : XImageNetwork(widget.url, fit: BoxFit.cover),
+          : XImageNetwork(widget.url, fit: BoxFit.cover),
       ),
     );
   }

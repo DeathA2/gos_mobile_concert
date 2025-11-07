@@ -22,11 +22,15 @@ class $AssetsFontsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/app_icon.png
+  AssetGenImage get appIcon =>
+      const AssetGenImage('assets/images/app_icon.png');
+
   /// File path: assets/images/avatar.png
   AssetGenImage get avatar => const AssetGenImage('assets/images/avatar.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [avatar];
+  List<AssetGenImage> get values => [appIcon, avatar];
 }
 
 class $AssetsLottiesGen {
@@ -101,6 +105,9 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/ic_search.svg
   SvgGenImage get icSearch => const SvgGenImage('assets/svgs/ic_search.svg');
 
+  /// File path: assets/svgs/ic_slack.svg
+  SvgGenImage get icSlack => const SvgGenImage('assets/svgs/ic_slack.svg');
+
   /// File path: assets/svgs/ic_user_default.svg
   SvgGenImage get icUserDefault =>
       const SvgGenImage('assets/svgs/ic_user_default.svg');
@@ -142,6 +149,7 @@ class $AssetsSvgsGen {
     icReels,
     icSave,
     icSearch,
+    icSlack,
     icUserDefault,
     icVerify,
     stateEmpty,
