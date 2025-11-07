@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => SettingBloc()),
-        BlocProvider(lazy: false, create: (_) => HomeCubit()),
+        BlocProvider(lazy: false, create: (_) => GetIt.I<HomeCubit>()),
       ],
       child: BlocBuilder<SettingBloc, SettingState>(
         builder: (context, state) {

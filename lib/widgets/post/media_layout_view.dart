@@ -2,8 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_concert/src/config/constants/constants.dart';
 import 'package:mobile_concert/src/services/local_cache_manager.dart';
+import 'package:mobile_concert/src/theme/screen.dart';
 import 'package:mobile_concert/widgets/image/image_network.dart';
 import 'package:mobile_concert/widgets/video/video_network.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class XMediaLayoutView extends StatefulWidget {
   final List<String> listMediaUrl;
@@ -79,40 +81,67 @@ class _XMediaLayoutViewState extends State<XMediaLayoutView> {
   @override
   Widget build(BuildContext context) {
     final mediaSize = widget.listMediaUrl.length;
-    return Stack(
+    return Column(
       children: [
-        PageView.builder(
-          controller: _pageController,
-          allowImplicitScrolling: true,
-          onPageChanged: (value) {
-            widget.onPageChanged(value);
-            setState(() => currentIndex = value);
-            _prefetchAround(value);
-          },
-          itemCount: mediaSize,
-          itemBuilder: (context, index) {
-            return _renderSingleMedia(widget.listMediaUrl[index], index: index);
-          },
+        SizedBox.square(
+          dimension: AppScreens.width,
+          child: Stack(
+            children: [
+              PageView.builder(
+                controller: _pageController,
+                allowImplicitScrolling: true,
+                onPageChanged: (value) {
+                  widget.onPageChanged(value);
+                  setState(() => currentIndex = value);
+                  _prefetchAround(value);
+                },
+                itemCount: mediaSize,
+                itemBuilder: (context, index) {
+                  return _renderSingleMedia(
+                    widget.listMediaUrl[index],
+                    index: index,
+                  );
+                },
+              ),
+              if (mediaSize > 1)
+                Positioned(
+                  right: 8,
+                  top: 8,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8.0,
+                      vertical: 4.0,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.black54,
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    child: Text(
+                      '${currentIndex + 1}/$mediaSize',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 12.0,
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
         ),
-        if (mediaSize > 1)
-          Positioned(
-            right: 8,
-            top: 8,
-            child: Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 8.0,
-                vertical: 4.0,
-              ),
-              decoration: BoxDecoration(
-                color: Colors.black54,
-                borderRadius: BorderRadius.circular(12.0),
-              ),
-              child: Text(
-                '${currentIndex + 1}/$mediaSize',
-                style: const TextStyle(color: Colors.white, fontSize: 12.0),
-              ),
+        if (mediaSize > 1) ...[
+          const SizedBox(height: 6),
+          SmoothPageIndicator(
+            controller: _pageController,
+            count: mediaSize,
+            effect: ScrollingDotsEffect(
+              dotHeight: 6,
+              dotWidth: 6,
+              spacing: 4,
+              dotColor: Colors.black.withValues(alpha: 0.15),
+              activeDotColor: Color(0xFF3897F0),
             ),
           ),
+        ],
       ],
     );
   }

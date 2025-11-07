@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mobile_concert/generated/assets/assets.gen.dart';
 import 'package:mobile_concert/src/features/dashboard/logic/navigation_bar_item.dart';
 import 'package:mobile_concert/src/features/dashboard/logic/dashboard_bloc.dart';
 
@@ -24,14 +25,27 @@ class XBottomNavigationBar extends StatelessWidget {
           type: BottomNavigationBarType.fixed,
           onTap: context.read<DashboardBloc>().onDestinationSelected,
           items: XNavigationBarItems.values.map((e) {
+            if (e == XNavigationBarItems.account) {
+              return BottomNavigationBarItem(
+                label: "",
+                icon: ClipRRect(
+                  borderRadius: BorderRadius.circular(90),
+                  child: Assets.images.avatar.image(
+                    width: 28,
+                    height: 28,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              );
+            }
             return BottomNavigationBarItem(
               label: "",
               activeIcon: SvgPicture.asset(
                 e.selectedIcon,
-                width: 24,
-                height: 24,
+                width: 28,
+                height: 28,
               ),
-              icon: SvgPicture.asset(e.icon, width: 24, height: 24),
+              icon: SvgPicture.asset(e.icon, width: 28, height: 28),
             );
           }).toList(),
         );

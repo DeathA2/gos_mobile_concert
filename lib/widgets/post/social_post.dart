@@ -1,14 +1,16 @@
-import 'package:dots_indicator/dots_indicator.dart';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mobile_concert/generated/assets/assets.gen.dart';
 import 'package:mobile_concert/src/config/constants/constants.dart';
 import 'package:mobile_concert/src/config/env/env.dart';
+import 'package:mobile_concert/src/features/home/cubit/home_cubit.dart';
 import 'package:mobile_concert/src/network/model/post.dart';
 import 'package:mobile_concert/src/network/model/user.dart';
 import 'package:mobile_concert/src/router/coordinator.dart';
 import 'package:mobile_concert/src/theme/colors.dart';
-import 'package:mobile_concert/src/theme/screen.dart';
 import 'package:mobile_concert/src/theme/styles.dart';
 import 'package:mobile_concert/src/theme/values.dart';
 import 'package:mobile_concert/src/utils/date/date_helper.dart';
@@ -27,11 +29,30 @@ class XSocialPost extends StatefulWidget {
 class _XSocialPostState extends State<XSocialPost> {
   late MUser? userInfo;
   int currentIndex = 0;
+  int like = 0;
+  int comment = 0;
+  int share = 0;
+  MUser? randomUser;
 
   @override
   void initState() {
     userInfo = widget.postInfo.ownerUser;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        like = _randomDoubleInRange(1000, 10000);
+        comment = _randomDoubleInRange(10, 99);
+        share = _randomDoubleInRange(1000, 10000);
+        final listUser = GetIt.I<HomeCubit>().state.listUser;
+        listUser.retainWhere((user) => user.id != userInfo?.id);
+        randomUser = listUser[_randomDoubleInRange(0, listUser.length - 1)];
+      });
+    });
+
     super.initState();
+  }
+
+  int _randomDoubleInRange(int min, int max) {
+    return min + Random().nextInt(max - min + 1);
   }
 
   @override
@@ -39,22 +60,7 @@ class _XSocialPostState extends State<XSocialPost> {
     return Column(
       children: [
         _renderUserInfoSection(),
-        SizedBox.square(dimension: AppScreens.width, child: _renderPostMedia()),
-        if (widget.postInfo.medias.length > 1) ...[
-          const SizedBox(height: 6),
-          DotsIndicator(
-            dotsCount: widget.postInfo.medias.length,
-            position: currentIndex.toDouble(),
-            animate: true,
-            decorator: DotsDecorator(
-              size: Size.square(6),
-              activeSize: Size.square(6),
-              spacing: EdgeInsets.symmetric(horizontal: 2.0),
-              color: Colors.black.withValues(alpha: 0.15),
-              activeColor: Color(0xFF3897F0),
-            ),
-          ),
-        ],
+        _renderPostMedia(),
         const SizedBox(height: 4),
         _renderReactionSection(),
         _renderLikeContent(),
@@ -75,7 +81,7 @@ class _XSocialPostState extends State<XSocialPost> {
           children: [
             TextSpan(text: 'Liked by ', style: AppStyles.body),
             TextSpan(
-              text: 'Walter',
+              text: randomUser?.name,
               style: AppStyles.body.copyWith(fontWeight: FontWeight.w600),
             ),
             TextSpan(text: ' and ', style: AppStyles.body),
@@ -226,13 +232,13 @@ class _XSocialPostState extends State<XSocialPost> {
         children: [
           _renderReaction(
             icon: Assets.svgs.icFavouriteActive.path,
-            total: 10,
+            total: like,
             color: Colors.red,
           ),
           SizedBox(width: 12),
-          _renderReaction(icon: Assets.svgs.icComment.path, total: 10),
+          _renderReaction(icon: Assets.svgs.icComment.path, total: comment),
           SizedBox(width: 12),
-          _renderReaction(icon: Assets.svgs.icMessenger.path, total: 10),
+          _renderReaction(icon: Assets.svgs.icMessenger.path, total: share),
           Spacer(),
           Assets.svgs.icSave.svg(),
         ],

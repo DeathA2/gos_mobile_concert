@@ -9,12 +9,12 @@ part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(HomeState()) {
-    _syncData();
+    syncData();
   }
   final userRepo = UserRepositoryImpl();
   final postRepo = PostRepositoryImpl();
 
-  Future<void> _syncData() async {
+  Future<void> syncData() async {
     await _getListUser();
     _getListPost();
   }

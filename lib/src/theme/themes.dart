@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_concert/generated/assets/fonts.gen.dart';
 import 'package:mobile_concert/src/theme/styles.dart';
 
 import 'colors.dart';
 
 class AppTheme {
-  static const String? fontFamily = null;
+  static const String fontFamily = FontFamily.instagramSans;
 
   static ThemeData light() => ThemeData(
     fontFamily: fontFamily,

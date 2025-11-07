@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile_concert/generated/assets/assets.gen.dart';
+import 'package:mobile_concert/src/config/env/env.dart';
 import 'package:mobile_concert/src/network/model/post.dart';
 import 'package:mobile_concert/src/network/model/user.dart';
 import 'package:mobile_concert/src/router/coordinator.dart';
@@ -180,9 +181,9 @@ class _PhotoViewPageState extends State<PhotoViewPage> {
         children: [
           _reactionItem(
             XSvgCustom(
-              svgPath: Assets.svgs.icFavourite,
+              svgPath: Assets.svgs.icFavouriteActive,
               svgWidth: AppSizes.s30,
-              svgColor: AppColors.white,
+              svgColor: AppColors.red,
             ),
             reactCount: 100,
           ),
@@ -249,7 +250,11 @@ class _PhotoViewPageState extends State<PhotoViewPage> {
   }
 
   Widget _renderAvatar(String avatar) {
-    return XAvatar(url: avatar, imageSize: 36.0, borderWidth: 0.0);
+    return XAvatar(
+      url: ENV.I.imageURL + avatar,
+      imageSize: 36.0,
+      borderWidth: 0.0,
+    );
   }
 
   Widget _renderUserInfo(String ownerName, DateTime createAt) {
