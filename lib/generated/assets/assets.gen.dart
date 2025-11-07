@@ -40,32 +40,59 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/ic_apple.svg
   SvgGenImage get icApple => const SvgGenImage('assets/svgs/ic_apple.svg');
 
-  /// File path: assets/svgs/ic_chat.svg
-  SvgGenImage get icChat => const SvgGenImage('assets/svgs/ic_chat.svg');
+  /// File path: assets/svgs/ic_camera.svg
+  SvgGenImage get icCamera => const SvgGenImage('assets/svgs/ic_camera.svg');
+
+  /// File path: assets/svgs/ic_comment.svg
+  SvgGenImage get icComment => const SvgGenImage('assets/svgs/ic_comment.svg');
+
+  /// File path: assets/svgs/ic_create.svg
+  SvgGenImage get icCreate => const SvgGenImage('assets/svgs/ic_create.svg');
 
   /// File path: assets/svgs/ic_facebook.svg
   SvgGenImage get icFacebook =>
       const SvgGenImage('assets/svgs/ic_facebook.svg');
 
+  /// File path: assets/svgs/ic_favourite.svg
+  SvgGenImage get icFavourite =>
+      const SvgGenImage('assets/svgs/ic_favourite.svg');
+
+  /// File path: assets/svgs/ic_favourite_active.svg
+  SvgGenImage get icFavouriteActive =>
+      const SvgGenImage('assets/svgs/ic_favourite_active.svg');
+
   /// File path: assets/svgs/ic_google.svg
   SvgGenImage get icGoogle => const SvgGenImage('assets/svgs/ic_google.svg');
 
-  /// File path: assets/svgs/ic_heart.svg
-  SvgGenImage get icHeart => const SvgGenImage('assets/svgs/ic_heart.svg');
-
   /// File path: assets/svgs/ic_home.svg
   SvgGenImage get icHome => const SvgGenImage('assets/svgs/ic_home.svg');
+
+  /// File path: assets/svgs/ic_home_active.svg
+  SvgGenImage get icHomeActive =>
+      const SvgGenImage('assets/svgs/ic_home_active.svg');
 
   /// File path: assets/svgs/ic_messenger.svg
   SvgGenImage get icMessenger =>
       const SvgGenImage('assets/svgs/ic_messenger.svg');
 
-  /// File path: assets/svgs/ic_option.svg
-  SvgGenImage get icOption => const SvgGenImage('assets/svgs/ic_option.svg');
+  /// File path: assets/svgs/ic_more.svg
+  SvgGenImage get icMore => const SvgGenImage('assets/svgs/ic_more.svg');
+
+  /// File path: assets/svgs/ic_reels.svg
+  SvgGenImage get icReels => const SvgGenImage('assets/svgs/ic_reels.svg');
+
+  /// File path: assets/svgs/ic_save.svg
+  SvgGenImage get icSave => const SvgGenImage('assets/svgs/ic_save.svg');
+
+  /// File path: assets/svgs/ic_search.svg
+  SvgGenImage get icSearch => const SvgGenImage('assets/svgs/ic_search.svg');
 
   /// File path: assets/svgs/ic_user_default.svg
   SvgGenImage get icUserDefault =>
       const SvgGenImage('assets/svgs/ic_user_default.svg');
+
+  /// File path: assets/svgs/ic_verify.svg
+  SvgGenImage get icVerify => const SvgGenImage('assets/svgs/ic_verify.svg');
 
   /// File path: assets/svgs/state_empty.svg
   SvgGenImage get stateEmpty =>
@@ -87,14 +114,22 @@ class $AssetsSvgsGen {
   List<SvgGenImage> get values => [
     emptyPhoto,
     icApple,
-    icChat,
+    icCamera,
+    icComment,
+    icCreate,
     icFacebook,
+    icFavourite,
+    icFavouriteActive,
     icGoogle,
-    icHeart,
     icHome,
+    icHomeActive,
     icMessenger,
-    icOption,
+    icMore,
+    icReels,
+    icSave,
+    icSearch,
     icUserDefault,
+    icVerify,
     stateEmpty,
     stateEmptyMap,
     stateEmptyNotification,

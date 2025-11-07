@@ -1,31 +1,41 @@
-import 'package:flutter/material.dart';
 import 'package:mobile_concert/src/router/route_name.dart';
 
 enum XNavigationBarItems {
   home(
-    label: 'Home',
     route: AppRouteNames.home,
-    icon: Icons.home_outlined,
-    selectedIcon: Icons.home,
+    icon: "assets/svgs/ic_home.svg",
+    selectedIcon: "assets/svgs/ic_home_active.svg",
+  ),
+  search(
+    route: AppRouteNames.home,
+    icon: "assets/svgs/ic_search.svg",
+    selectedIcon: "assets/svgs/ic_search.svg",
+  ),
+  create(
+    route: AppRouteNames.home,
+    icon: "assets/svgs/ic_create.svg",
+    selectedIcon: "assets/svgs/ic_create.svg",
+  ),
+  reel(
+    route: AppRouteNames.home,
+    icon: "assets/svgs/ic_reels.svg",
+    selectedIcon: "assets/svgs/ic_reels.svg",
   ),
   account(
-    label: 'Account',
     route: AppRouteNames.account,
-    icon: Icons.people_outline,
-    selectedIcon: Icons.people,
+    icon: "assets/svgs/ic_favourite.svg",
+    selectedIcon: "assets/svgs/ic_favourite_active.svg",
   );
 
   const XNavigationBarItems({
-    required this.label,
     required this.route,
     required this.icon,
-    this.selectedIcon,
+    required this.selectedIcon,
   });
 
-  final String label;
   final AppRouteNames route;
-  final IconData icon;
-  final IconData? selectedIcon;
+  final String icon;
+  final String selectedIcon;
 
   static XNavigationBarItems fromLocation(String location) {
     if (location == XNavigationBarItems.home.route.name) {
