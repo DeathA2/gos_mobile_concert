@@ -6,7 +6,6 @@ import 'package:mobile_concert/src/config/constants/constants.dart';
 import 'package:mobile_concert/src/config/env/env.dart';
 import 'package:mobile_concert/src/network/model/post.dart';
 import 'package:mobile_concert/src/network/model/user.dart';
-import 'package:mobile_concert/src/router/coordinator.dart';
 import 'package:mobile_concert/src/theme/colors.dart';
 import 'package:mobile_concert/src/theme/screen.dart';
 import 'package:mobile_concert/src/theme/styles.dart';
@@ -59,8 +58,6 @@ class _XSocialPostState extends State<XSocialPost> {
         _renderReactionSection(),
         _renderLikeContent(),
         _renderPostContent(),
-        // TODO: Add later
-        // _renderCommentSection()
       ],
     );
   }
@@ -156,15 +153,16 @@ class _XSocialPostState extends State<XSocialPost> {
       return _renderStreamView();
     }
     List<String> medias = widget.postInfo.medias
-        .map((e) => ENV.I.imageURL + e)
+        .map((e) => !e.contains("http") ? ENV.I.imageURL + e : e)
         .toList();
     return XMediaLayoutView(
       listMediaUrl: medias,
-      onTapMedia: (index) => AppCoordinator.showMediaDetail(
-        medias,
-        post: widget.postInfo,
-        index: index,
-      ),
+      onTapMedia: (index) => {},
+      // onTapMedia: (index) => AppCoordinator.showMediaDetail(
+      //   medias,
+      //   post: widget.postInfo,
+      //   index: index,
+      // ),
       onPageChanged: (index) {
         setState(() => currentIndex = index);
       },
@@ -230,9 +228,13 @@ class _XSocialPostState extends State<XSocialPost> {
             color: Colors.red,
           ),
           SizedBox(width: 12),
-          _renderReaction(icon: Assets.svgs.icComment.path, total: 10),
+          _renderReaction(
+            icon: Assets.svgs.icComment.path,
+            total: 10,
+            color: AppColors.black,
+          ),
           SizedBox(width: 12),
-          _renderReaction(icon: Assets.svgs.icMessenger.path, total: 10),
+          _renderReaction(icon: Assets.svgs.icSlack.path, total: 10),
           Spacer(),
           Assets.svgs.icSave.svg(),
         ],
@@ -243,7 +245,7 @@ class _XSocialPostState extends State<XSocialPost> {
   Widget _renderReaction({
     required String icon,
     required int total,
-    Color color = Colors.black,
+    Color? color,
   }) {
     return Row(
       children: [
@@ -251,7 +253,9 @@ class _XSocialPostState extends State<XSocialPost> {
           icon,
           width: 24,
           height: 24,
-          colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+          colorFilter: color != null
+              ? ColorFilter.mode(color, BlendMode.srcIn)
+              : null,
         ),
         SizedBox(width: 4),
         Text('$total', style: TextStyle(fontWeight: FontWeight.w600)),
