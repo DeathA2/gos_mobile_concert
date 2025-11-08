@@ -15,10 +15,6 @@ import 'package:flutter_svg/flutter_svg.dart' as _svg;
 import 'package:lottie/lottie.dart' as _lottie;
 import 'package:vector_graphics/vector_graphics.dart' as _vg;
 
-class $AssetsFontsGen {
-  const $AssetsFontsGen();
-}
-
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
@@ -40,12 +36,15 @@ class $AssetsLottiesGen {
   LottieGenImage get locationAnimation =>
       const LottieGenImage('assets/lotties/location-animation.json');
 
+  /// File path: assets/lotties/love.json
+  LottieGenImage get love => const LottieGenImage('assets/lotties/love.json');
+
   /// File path: assets/lotties/rocket.json
   LottieGenImage get rocket =>
       const LottieGenImage('assets/lotties/rocket.json');
 
   /// List of all assets
-  List<LottieGenImage> get values => [locationAnimation, rocket];
+  List<LottieGenImage> get values => [locationAnimation, love, rocket];
 }
 
 class $AssetsSvgsGen {
@@ -162,7 +161,6 @@ class $AssetsSvgsGen {
 class Assets {
   const Assets._();
 
-  static const $AssetsFontsGen fonts = $AssetsFontsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsLottiesGen lotties = $AssetsLottiesGen();
   static const $AssetsSvgsGen svgs = $AssetsSvgsGen();

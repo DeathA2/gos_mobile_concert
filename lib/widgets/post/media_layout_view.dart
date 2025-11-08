@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:mobile_concert/src/config/constants/constants.dart';
 import 'package:mobile_concert/src/services/local_cache_manager.dart';
 import 'package:mobile_concert/src/theme/screen.dart';
+import 'package:mobile_concert/src/theme/values.dart';
 import 'package:mobile_concert/widgets/image/image_network.dart';
+import 'package:mobile_concert/widgets/post/double_tap_widget.dart';
 import 'package:mobile_concert/widgets/video/video_network.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -207,18 +209,23 @@ class _MediaPageState extends State<_MediaPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return GestureDetector(
-      onTap: () => widget.onTapMedia(widget.index),
-      child: ConstrainedBox(
-        constraints: BoxConstraints(
-          maxHeight: AppConstants.mediaMaxHeight,
-          minHeight: AppConstants.mediaMinHeight,
-          maxWidth: double.infinity,
-          minWidth: double.infinity,
+    return XDoubleTapLike(
+      onLiked: () => {},
+      iconSize: AppSizes.s200,
+      animationDuration: Duration(milliseconds: 500),
+      child: GestureDetector(
+        onTap: () => widget.onTapMedia(widget.index),
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxHeight: AppConstants.mediaMaxHeight,
+            minHeight: AppConstants.mediaMinHeight,
+            maxWidth: double.infinity,
+            minWidth: double.infinity,
+          ),
+          child: widget.isVideo
+              ? XCachedVideo(videoUrl: widget.url)
+              : XImageNetwork(widget.url, fit: BoxFit.cover),
         ),
-      child: widget.isVideo
-            ? XCachedVideo(videoUrl: widget.url)
-          : XImageNetwork(widget.url, fit: BoxFit.cover),
       ),
     );
   }
