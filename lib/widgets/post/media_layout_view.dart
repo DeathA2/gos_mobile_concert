@@ -25,7 +25,8 @@ class XMediaLayoutView extends StatefulWidget {
   State<XMediaLayoutView> createState() => _XMediaLayoutViewState();
 }
 
-class _XMediaLayoutViewState extends State<XMediaLayoutView> {
+class _XMediaLayoutViewState extends State<XMediaLayoutView>
+    with ChangeNotifier {
   static const _prefetchRange = 2;
 
   int currentIndex = 0;
@@ -37,9 +38,28 @@ class _XMediaLayoutViewState extends State<XMediaLayoutView> {
     super.initState();
     _pageController = PageController(initialPage: currentIndex);
 
+    _pageController.addListener(_onPageControllerScroll);
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       _prefetchAround(currentIndex);
+    });
+  }
+
+  void _onPageControllerScroll() {
+    if (!_pageController.position.isScrollingNotifier.value &&
+        !_pageController.position.isScrollingNotifier.hasListeners) {
+      return;
+    }
+
+    _pageController.position.isScrollingNotifier.addListener(() {
+      if (!_pageController.position.isScrollingNotifier.value) {
+        final newPage = _pageController.page?.round() ?? currentIndex;
+        if (newPage != currentIndex) {
+          widget.onPageChanged(newPage);
+          _prefetchAround(newPage);
+        }
+      }
     });
   }
 
@@ -93,9 +113,7 @@ class _XMediaLayoutViewState extends State<XMediaLayoutView> {
                 controller: _pageController,
                 allowImplicitScrolling: true,
                 onPageChanged: (value) {
-                  widget.onPageChanged(value);
                   setState(() => currentIndex = value);
-                  _prefetchAround(value);
                 },
                 itemCount: mediaSize,
                 itemBuilder: (context, index) {
