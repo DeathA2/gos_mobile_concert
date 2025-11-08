@@ -11,13 +11,13 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class XMediaLayoutView extends StatefulWidget {
   final List<String> listMediaUrl;
-  final Function(int) onTapMedia;
+  final Function() onDoubleTapMedia;
   final Function(int) onPageChanged;
 
   const XMediaLayoutView({
     super.key,
     required this.listMediaUrl,
-    required this.onTapMedia,
+    required this.onDoubleTapMedia,
     required this.onPageChanged,
   });
 
@@ -171,7 +171,7 @@ class _XMediaLayoutViewState extends State<XMediaLayoutView>
       url: url,
       index: index,
       isVideo: _isVideoUrl(url),
-      onTapMedia: widget.onTapMedia,
+      onDoubleTapMedia: widget.onDoubleTapMedia,
     );
   }
 
@@ -207,13 +207,13 @@ class _MediaPage extends StatefulWidget {
     required this.url,
     required this.index,
     required this.isVideo,
-    required this.onTapMedia,
+    required this.onDoubleTapMedia,
   });
 
   final String url;
   final int index;
   final bool isVideo;
-  final Function(int) onTapMedia;
+  final Function() onDoubleTapMedia;
 
   @override
   State<_MediaPage> createState() => _MediaPageState();
@@ -228,22 +228,19 @@ class _MediaPageState extends State<_MediaPage>
   Widget build(BuildContext context) {
     super.build(context);
     return XDoubleTapLike(
-      onLiked: () => {},
+      onLiked: () => widget.onDoubleTapMedia(),
       iconSize: AppSizes.s200,
       animationDuration: Duration(milliseconds: 500),
-      child: GestureDetector(
-        onTap: () => widget.onTapMedia(widget.index),
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-            maxHeight: AppConstants.mediaMaxHeight,
-            minHeight: AppConstants.mediaMinHeight,
-            maxWidth: double.infinity,
-            minWidth: double.infinity,
-          ),
-          child: widget.isVideo
-              ? XCachedVideo(videoUrl: widget.url)
-              : XImageNetwork(widget.url, fit: BoxFit.cover),
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxHeight: AppConstants.mediaMaxHeight,
+          minHeight: AppConstants.mediaMinHeight,
+          maxWidth: double.infinity,
+          minWidth: double.infinity,
         ),
+        child: widget.isVideo
+            ? XCachedVideo(videoUrl: widget.url)
+            : XImageNetwork(widget.url, fit: BoxFit.cover),
       ),
     );
   }

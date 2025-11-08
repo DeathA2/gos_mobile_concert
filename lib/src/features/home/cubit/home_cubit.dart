@@ -35,4 +35,25 @@ class HomeCubit extends Cubit<HomeState> {
     }).toList();
     emit(state.copyWith(listPost: newPost ?? []));
   }
+
+  bool alreadyLikedPost(String postId) {
+    return state.likedPosts.contains(postId);
+  }
+
+  void updateLikedPost(String postId, {bool forceLike = false}) {
+    final likedPosts = [...state.likedPosts];
+    final alreadyLiked = alreadyLikedPost(postId);
+
+    if (alreadyLiked && forceLike) return;
+
+    final shouldLike = forceLike || !alreadyLiked;
+
+    if (shouldLike) {
+      likedPosts.add(postId);
+    } else {
+      likedPosts.remove(postId);
+    }
+
+    emit(state.copyWith(likedPosts: likedPosts));
+  }
 }

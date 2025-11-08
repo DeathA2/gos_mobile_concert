@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobile_concert/generated/assets/assets.gen.dart';
@@ -32,10 +33,12 @@ class _XSocialPostState extends State<XSocialPost> {
   int comment = 0;
   int share = 0;
   MUser? randomUser;
+  String postId = "";
 
   @override
   void initState() {
     userInfo = widget.postInfo.ownerUser;
+    postId = widget.postInfo.id;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {
         like = _randomDoubleInRange(1000, 10000);
@@ -163,7 +166,9 @@ class _XSocialPostState extends State<XSocialPost> {
         .toList();
     return XMediaLayoutView(
       listMediaUrl: medias,
-      onTapMedia: (index) => {},
+      onDoubleTapMedia: () => {
+        context.read<HomeCubit>().updateLikedPost(postId, forceLike: true),
+      },
       // onTapMedia: (index) => AppCoordinator.showMediaDetail(
       //   medias,
       //   post: widget.postInfo,
@@ -228,10 +233,25 @@ class _XSocialPostState extends State<XSocialPost> {
       padding: EdgeInsetsGeometry.symmetric(horizontal: 12.0, vertical: 8.0),
       child: Row(
         children: [
-          _renderReaction(
-            icon: Assets.svgs.icFavouriteActive.path,
-            total: like,
-            color: Colors.red,
+          BlocBuilder<HomeCubit, HomeState>(
+            buildWhen: (previous, current) {
+              final prevLiked = previous.likedPosts.contains(postId);
+              final currLiked = current.likedPosts.contains(postId);
+              return prevLiked != currLiked;
+            },
+            builder: (context, state) {
+              return _renderReaction(
+                icon: Assets.svgs.icFavouriteActive.path,
+                total: like,
+                color: Colors.red,
+                isLiked: context.read<HomeCubit>().alreadyLikedPost(
+                  widget.postInfo.id,
+                ),
+                onTap: () => context.read<HomeCubit>().updateLikedPost(
+                  widget.postInfo.id,
+                ),
+              );
+            },
           ),
           SizedBox(width: 12),
           _renderReaction(icon: Assets.svgs.icComment.path, total: comment),
@@ -247,21 +267,34 @@ class _XSocialPostState extends State<XSocialPost> {
   Widget _renderReaction({
     required String icon,
     required int total,
-    Color? color,
+    VoidCallback? onTap,
+    bool isLiked = false,
+    Color color = Colors.black,
   }) {
-    return Row(
-      children: [
-        SvgPicture.asset(
-          icon,
-          width: 24,
-          height: 24,
-          colorFilter: color != null
-              ? ColorFilter.mode(color, BlendMode.srcIn)
-              : null,
-        ),
-        SizedBox(width: 4),
-        Text('$total', style: TextStyle(fontWeight: FontWeight.w600)),
-      ],
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SvgPicture.asset(
+            icon,
+            width: 24,
+            height: 24,
+            colorFilter: isLiked
+                ? ColorFilter.mode(color, BlendMode.srcIn)
+                : null,
+          ),
+          const SizedBox(width: 4),
+          Text(
+            '$total',
+            style: const TextStyle(
+              fontWeight: FontWeight.w600,
+              color: Colors.black,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
