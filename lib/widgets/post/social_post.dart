@@ -28,7 +28,6 @@ class XSocialPost extends StatefulWidget {
 
 class _XSocialPostState extends State<XSocialPost> {
   late MUser? userInfo;
-  int currentIndex = 0;
   int like = 0;
   int comment = 0;
   int share = 0;
@@ -174,9 +173,6 @@ class _XSocialPostState extends State<XSocialPost> {
       //   post: widget.postInfo,
       //   index: index,
       // ),
-      onPageChanged: (index) {
-        setState(() => currentIndex = index);
-      },
     );
   }
 
@@ -240,13 +236,16 @@ class _XSocialPostState extends State<XSocialPost> {
               return prevLiked != currLiked;
             },
             builder: (context, state) {
+              bool isLiked = context.read<HomeCubit>().alreadyLikedPost(
+                widget.postInfo.id,
+              );
               return _renderReaction(
-                icon: Assets.svgs.icFavouriteActive.path,
-                total: like,
+                icon: isLiked
+                    ? Assets.svgs.icFavouriteActive.path
+                    : Assets.svgs.icFavourite.path,
+                total: isLiked ? like + 1 : like,
                 color: Colors.red,
-                isLiked: context.read<HomeCubit>().alreadyLikedPost(
-                  widget.postInfo.id,
-                ),
+                isLiked: isLiked,
                 onTap: () => context.read<HomeCubit>().updateLikedPost(
                   widget.postInfo.id,
                 ),
