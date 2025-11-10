@@ -6,8 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:mobile_concert/firebase_options.dart';
 import 'package:mobile_concert/src/app.dart';
 import 'package:mobile_concert/src/locator.dart';
+import 'package:flutter/services.dart';
 
 Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await initializeApp(
     name: "production",
     firebaseOptions: DefaultFirebaseOptions.currentPlatform,
@@ -25,4 +27,11 @@ Future main() async {
     };
     runApp(const MyApp());
   }
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+  );
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
 }

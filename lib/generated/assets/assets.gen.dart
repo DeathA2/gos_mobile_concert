@@ -15,6 +15,97 @@ import 'package:flutter_svg/flutter_svg.dart' as _svg;
 import 'package:lottie/lottie.dart' as _lottie;
 import 'package:vector_graphics/vector_graphics.dart' as _vg;
 
+class $AssetsImagesGen {
+  const $AssetsImagesGen();
+
+  /// File path: assets/images/app_arrow.png
+  AssetGenImage get appArrow =>
+      const AssetGenImage('assets/images/app_arrow.png');
+
+  /// File path: assets/images/app_back.png
+  AssetGenImage get appBack =>
+      const AssetGenImage('assets/images/app_back.png');
+
+  /// File path: assets/images/app_cancel_modification.png
+  AssetGenImage get appCancelModification =>
+      const AssetGenImage('assets/images/app_cancel_modification.png');
+
+  /// File path: assets/images/app_clear_content.png
+  AssetGenImage get appClearContent =>
+      const AssetGenImage('assets/images/app_clear_content.png');
+
+  /// File path: assets/images/app_icon.png
+  AssetGenImage get appIcon =>
+      const AssetGenImage('assets/images/app_icon.png');
+
+  /// File path: assets/images/app_live_hall_black.png
+  AssetGenImage get appLiveHallBlack =>
+      const AssetGenImage('assets/images/app_live_hall_black.png');
+
+  /// File path: assets/images/app_live_hall_blue.png
+  AssetGenImage get appLiveHallBlue =>
+      const AssetGenImage('assets/images/app_live_hall_blue.png');
+
+  /// File path: assets/images/app_me_black.png
+  AssetGenImage get appMeBlack =>
+      const AssetGenImage('assets/images/app_me_black.png');
+
+  /// File path: assets/images/app_me_blue.png
+  AssetGenImage get appMeBlue =>
+      const AssetGenImage('assets/images/app_me_blue.png');
+
+  /// File path: assets/images/app_question_link.png
+  AssetGenImage get appQuestionLink =>
+      const AssetGenImage('assets/images/app_question_link.png');
+
+  /// File path: assets/images/app_start_live.png
+  AssetGenImage get appStartLive =>
+      const AssetGenImage('assets/images/app_start_live.png');
+
+  /// File path: assets/images/app_top_background.png
+  AssetGenImage get appTopBackground =>
+      const AssetGenImage('assets/images/app_top_background.png');
+
+  /// File path: assets/images/app_video_live.png
+  AssetGenImage get appVideoLive =>
+      const AssetGenImage('assets/images/app_video_live.png');
+
+  /// File path: assets/images/app_voice_room.png
+  AssetGenImage get appVoiceRoom =>
+      const AssetGenImage('assets/images/app_voice_room.png');
+
+  /// File path: assets/images/debug.png
+  AssetGenImage get debug => const AssetGenImage('assets/images/debug.png');
+
+  /// File path: assets/images/people.webp
+  AssetGenImage get people => const AssetGenImage('assets/images/people.webp');
+
+  /// File path: assets/images/qcloudlog.png
+  AssetGenImage get qcloudlog =>
+      const AssetGenImage('assets/images/qcloudlog.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [
+    appArrow,
+    appBack,
+    appCancelModification,
+    appClearContent,
+    appIcon,
+    appLiveHallBlack,
+    appLiveHallBlue,
+    appMeBlack,
+    appMeBlue,
+    appQuestionLink,
+    appStartLive,
+    appTopBackground,
+    appVideoLive,
+    appVoiceRoom,
+    debug,
+    people,
+    qcloudlog,
+  ];
+}
+
 class $AssetsLottiesGen {
   const $AssetsLottiesGen();
 
@@ -105,8 +196,97 @@ class $AssetsSvgsGen {
 class Assets {
   const Assets._();
 
+  static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsLottiesGen lotties = $AssetsLottiesGen();
   static const $AssetsSvgsGen svgs = $AssetsSvgsGen();
+}
+
+class AssetGenImage {
+  const AssetGenImage(
+    this._assetName, {
+    this.size,
+    this.flavors = const {},
+    this.animation,
+  });
+
+  final String _assetName;
+
+  final Size? size;
+  final Set<String> flavors;
+  final AssetGenImageAnimation? animation;
+
+  Image image({
+    Key? key,
+    AssetBundle? bundle,
+    ImageFrameBuilder? frameBuilder,
+    ImageErrorWidgetBuilder? errorBuilder,
+    String? semanticLabel,
+    bool excludeFromSemantics = false,
+    double? scale,
+    double? width,
+    double? height,
+    Color? color,
+    Animation<double>? opacity,
+    BlendMode? colorBlendMode,
+    BoxFit? fit,
+    AlignmentGeometry alignment = Alignment.center,
+    ImageRepeat repeat = ImageRepeat.noRepeat,
+    Rect? centerSlice,
+    bool matchTextDirection = false,
+    bool gaplessPlayback = true,
+    bool isAntiAlias = false,
+    String? package,
+    FilterQuality filterQuality = FilterQuality.medium,
+    int? cacheWidth,
+    int? cacheHeight,
+  }) {
+    return Image.asset(
+      _assetName,
+      key: key,
+      bundle: bundle,
+      frameBuilder: frameBuilder,
+      errorBuilder: errorBuilder,
+      semanticLabel: semanticLabel,
+      excludeFromSemantics: excludeFromSemantics,
+      scale: scale,
+      width: width,
+      height: height,
+      color: color,
+      opacity: opacity,
+      colorBlendMode: colorBlendMode,
+      fit: fit,
+      alignment: alignment,
+      repeat: repeat,
+      centerSlice: centerSlice,
+      matchTextDirection: matchTextDirection,
+      gaplessPlayback: gaplessPlayback,
+      isAntiAlias: isAntiAlias,
+      package: package,
+      filterQuality: filterQuality,
+      cacheWidth: cacheWidth,
+      cacheHeight: cacheHeight,
+    );
+  }
+
+  ImageProvider provider({AssetBundle? bundle, String? package}) {
+    return AssetImage(_assetName, bundle: bundle, package: package);
+  }
+
+  String get path => _assetName;
+
+  String get keyName => _assetName;
+}
+
+class AssetGenImageAnimation {
+  const AssetGenImageAnimation({
+    required this.isAnimation,
+    required this.duration,
+    required this.frames,
+  });
+
+  final bool isAnimation;
+  final Duration duration;
+  final int frames;
 }
 
 class SvgGenImage {

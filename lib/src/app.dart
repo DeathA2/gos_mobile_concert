@@ -8,6 +8,7 @@ import 'package:mobile_concert/src/router/router.dart';
 import 'package:mobile_concert/src/theme/screen.dart';
 import 'package:mobile_concert/src/theme/themes.dart';
 import 'package:mobile_concert/src/localization/localization_utils.dart';
+import 'package:tencent_live_uikit/tencent_live_uikit.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -23,8 +24,18 @@ class MyApp extends StatelessWidget {
       child: BlocBuilder<SettingBloc, SettingState>(
         builder: (context, state) {
           return MaterialApp.router(
-            localizationsDelegates: S.localizationsDelegates,
-            supportedLocales: S.supportedLocales,
+            localizationsDelegates: [
+              ...S.localizationsDelegates,
+              ...LiveKitLocalizations.localizationsDelegates,
+              ...BarrageLocalizations.localizationsDelegates,
+              ...GiftLocalizations.localizationsDelegates,
+            ],
+            supportedLocales: [
+              ...S.supportedLocales,
+              ...LiveKitLocalizations.supportedLocales,
+              ...BarrageLocalizations.supportedLocales,
+              ...GiftLocalizations.supportedLocales,
+            ],
             onGenerateTitle: (context) => S.of(context).common_appTitle,
             builder: BotToastInit(),
             theme: AppTheme.light(),
