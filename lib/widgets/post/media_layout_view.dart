@@ -12,13 +12,11 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 class XMediaLayoutView extends StatefulWidget {
   final List<String> listMediaUrl;
   final Function() onDoubleTapMedia;
-  final Function(int) onPageChanged;
 
   const XMediaLayoutView({
     super.key,
     required this.listMediaUrl,
     required this.onDoubleTapMedia,
-    required this.onPageChanged,
   });
 
   @override
@@ -56,7 +54,6 @@ class _XMediaLayoutViewState extends State<XMediaLayoutView>
       if (!_pageController.position.isScrollingNotifier.value) {
         final newPage = _pageController.page?.round() ?? currentIndex;
         if (newPage != currentIndex) {
-          widget.onPageChanged(newPage);
           _prefetchAround(newPage);
         }
       }
@@ -103,6 +100,10 @@ class _XMediaLayoutViewState extends State<XMediaLayoutView>
   @override
   Widget build(BuildContext context) {
     final mediaSize = widget.listMediaUrl.length;
+    if (widget.listMediaUrl.isNotEmpty &&
+        _isVideoUrl(widget.listMediaUrl.first)) {
+      return _renderSingleMedia(widget.listMediaUrl.first, index: 0);
+    }
     return Column(
       children: [
         SizedBox.square(
@@ -227,6 +228,17 @@ class _MediaPageState extends State<_MediaPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    if (widget.isVideo) {
+      return ConstrainedBox(
+        constraints: BoxConstraints(
+          maxHeight: AppConstants.mediaMaxHeight,
+          minHeight: AppConstants.mediaMinHeight,
+          maxWidth: double.infinity,
+          minWidth: double.infinity,
+        ),
+        child: XCachedVideo(videoUrl: widget.url, autoPlay: true, loop: true),
+      );
+    }
     return XDoubleTapLike(
       onLiked: () => widget.onDoubleTapMedia(),
       iconSize: AppSizes.s200,
@@ -238,9 +250,7 @@ class _MediaPageState extends State<_MediaPage>
           maxWidth: double.infinity,
           minWidth: double.infinity,
         ),
-        child: widget.isVideo
-            ? XCachedVideo(videoUrl: widget.url)
-            : XImageNetwork(widget.url, fit: BoxFit.cover),
+        child: XImageNetwork(widget.url, fit: BoxFit.cover),
       ),
     );
   }
