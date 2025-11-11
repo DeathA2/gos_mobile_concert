@@ -12,4 +12,6 @@ class ENV {
   Future load(String fileName) => dotenv.load(fileName: fileName);
 
   String get imageURL => dotenv.env['IMAGE_URL'] ?? '';
+  int get sdkAppId => int.tryParse(dotenv.env['SDK_APP_ID'] ?? '') ?? 0;
+  String get secretKeyLive => dotenv.env['SECRET_KEY_LIVE'] ?? '';
 }

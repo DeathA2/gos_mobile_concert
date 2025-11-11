@@ -8,7 +8,8 @@ enum AppRouteNames {
   sampleDetails(path: 'sample-details', paramName: 'id'),
   profile(path: '/profile'),
   settings(path: '/settings'),
-  photoView(path: '/photoView');
+  photoView(path: '/photoView'),
+  videoLive(path: '/video-live');
 
   const AppRouteNames({required this.path, this.paramName});
 

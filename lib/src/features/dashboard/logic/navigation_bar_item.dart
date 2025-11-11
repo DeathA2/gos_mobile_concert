@@ -12,7 +12,7 @@ enum XNavigationBarItems {
     selectedIcon: "assets/svgs/ic_search.svg",
   ),
   create(
-    route: AppRouteNames.home,
+    route: AppRouteNames.videoLive,
     icon: "assets/svgs/ic_create.svg",
     selectedIcon: "assets/svgs/ic_create.svg",
   ),

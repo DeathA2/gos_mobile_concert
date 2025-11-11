@@ -4,12 +4,14 @@ import 'package:mobile_concert/src/network/data/post/post_repository_impl.dart';
 import 'package:mobile_concert/src/network/data/user/user_repository_impl.dart';
 import 'package:mobile_concert/src/network/model/post.dart';
 import 'package:mobile_concert/src/network/model/user.dart';
+import 'package:mobile_concert/src/utils/app_store.dart';
 
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(HomeState()) {
     syncData();
+    _login();
   }
   final userRepo = UserRepositoryImpl();
   final postRepo = PostRepositoryImpl();
@@ -17,6 +19,12 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> syncData() async {
     await _getListUser();
     _getListPost();
+  }
+
+  final _userId = 'philip_2';
+
+  void _login() async {
+    AppStore.userId = _userId;
   }
 
   Future<void> _getListUser() async {

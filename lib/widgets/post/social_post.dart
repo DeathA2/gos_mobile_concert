@@ -15,6 +15,7 @@ import 'package:mobile_concert/src/theme/styles.dart';
 import 'package:mobile_concert/src/theme/values.dart';
 import 'package:mobile_concert/src/utils/date/date_helper.dart';
 import 'package:mobile_concert/widgets/avatar/avatar.dart';
+import 'package:mobile_concert/widgets/card/live_video.dart';
 import 'package:mobile_concert/widgets/post/media_layout_view.dart';
 
 class XSocialPost extends StatefulWidget {
@@ -48,7 +49,6 @@ class _XSocialPostState extends State<XSocialPost> {
         randomUser = listUser[_randomDoubleInRange(0, listUser.length - 1)];
       });
     });
-
     super.initState();
   }
 
@@ -182,7 +182,8 @@ class _XSocialPostState extends State<XSocialPost> {
         Container(
           width: double.infinity,
           height: AppConstants.mediaMaxHeight,
-          color: AppColors.black2,
+          color: Colors.red,
+          child: LiveVideoCustom(),
         ),
         Positioned(
           top: AppPadding.p12,

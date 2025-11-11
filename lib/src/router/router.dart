@@ -5,17 +5,19 @@ import 'package:mobile_concert/src/features/common/view/not_found_view.dart';
 import 'package:mobile_concert/src/features/dashboard/logic/navigation_bar_item.dart';
 import 'package:mobile_concert/src/features/dashboard/view/dashboard_view.dart';
 import 'package:mobile_concert/src/features/home/view/home_view.dart';
+import 'package:mobile_concert/src/features/livestream/view/video_live_widget.dart';
 import 'package:mobile_concert/src/features/photo_view/photo_view_page.dart';
 import 'package:mobile_concert/src/router/coordinator.dart';
 import 'package:mobile_concert/src/router/extras/photo_view_extra.dart';
 import 'package:mobile_concert/src/router/route_name.dart';
+import 'package:tencent_live_uikit/live_navigator_observer.dart';
 
 class AppRouter {
   late final router = GoRouter(
     navigatorKey: AppCoordinator.navigatorKey,
     initialLocation: AppRouteNames.home.path,
     debugLogDiagnostics: kDebugMode,
-    observers: [BotToastNavigatorObserver()],
+    observers: [BotToastNavigatorObserver(), TUILiveKitNavigatorObserver()],
     routes: <RouteBase>[
       ShellRoute(
         navigatorKey: AppCoordinator.shellKey,
@@ -51,6 +53,13 @@ class AppRouter {
               //   ],
               // ),
             ],
+          ),
+          GoRoute(
+            path: AppRouteNames.videoLive.path,
+            name: AppRouteNames.videoLive.name,
+            pageBuilder: (context, state) =>
+                const NoTransitionPage(child: VideoLiveWidget()),
+            routes: <RouteBase>[],
           ),
         ],
       ),
