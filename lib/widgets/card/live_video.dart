@@ -42,9 +42,7 @@ class _LiveVideoCustomState extends State<LiveVideoCustom> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 200.0,
-      height: 200.0,
+    return IgnorePointer(
       child: TRTCCloudVideoView(
         onViewCreated: (viewId) {
           liveService.startRemoteStream(userId: "philip", viewId: viewId);

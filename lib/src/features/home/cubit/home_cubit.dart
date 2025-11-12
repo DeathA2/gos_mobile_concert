@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_concert/src/network/data/post/post_repository_impl.dart';
@@ -31,6 +33,28 @@ class HomeCubit extends Cubit<HomeState> {
     final listUser = await userRepo.getAllUser();
     emit(state.copyWith(listUser: listUser.data ?? []));
   }
+
+
+List<MUser> getRandomUser(String hostUserId, {int number = 2}) {
+  final availableUsers =
+      state.listUser.where((u) => u.id != hostUserId).toList();
+
+  if (availableUsers.isEmpty) return [];
+
+  final count = min(number, availableUsers.length);
+
+  final random = Random();
+  final List<MUser> selected = [];
+
+  while (selected.length < count) {
+    final user = availableUsers[random.nextInt(availableUsers.length)];
+    if (!selected.contains(user)) {
+      selected.add(user);
+    }
+  }
+
+  return selected;
+}
 
   Future<void> _getListPost() async {
     final listPost = await postRepo.getAllPosts();

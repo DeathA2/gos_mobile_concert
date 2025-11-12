@@ -16,6 +16,10 @@ class MUser extends Equatable {
     );
   }
 
+  factory MUser.empty() {
+    return MUser(id: "", name: "", avatar: "");
+  }
+
   Map<String, dynamic> toMap() {
     return <String, dynamic>{'id': id, 'name': name, 'avatar': avatar};
   }

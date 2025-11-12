@@ -10,6 +10,7 @@ import 'package:mobile_concert/src/config/env/env.dart';
 import 'package:mobile_concert/src/features/home/cubit/home_cubit.dart';
 import 'package:mobile_concert/src/network/model/post.dart';
 import 'package:mobile_concert/src/network/model/user.dart';
+import 'package:mobile_concert/src/router/coordinator.dart';
 import 'package:mobile_concert/src/theme/colors.dart';
 import 'package:mobile_concert/src/theme/styles.dart';
 import 'package:mobile_concert/src/theme/values.dart';
@@ -177,20 +178,24 @@ class _XSocialPostState extends State<XSocialPost> {
   }
 
   Widget _renderStreamView() {
-    return Stack(
-      children: [
-        Container(
-          width: double.infinity,
-          height: AppConstants.mediaMaxHeight,
-          color: Colors.red,
-          child: LiveVideoCustom(),
-        ),
-        Positioned(
-          top: AppPadding.p12,
-          left: AppPadding.p12,
-          child: _renderStreamLabel(),
-        ),
-      ],
+    return GestureDetector(
+      onTap: () =>
+          AppCoordinator.showLiveStreamFullScreen(post: widget.postInfo),
+      child: Stack(
+        children: [
+          Container(
+            width: double.infinity,
+            height: AppConstants.mediaMaxHeight,
+            color: Colors.red,
+            child: LiveVideoCustom(),
+          ),
+          Positioned(
+            top: AppPadding.p12,
+            left: AppPadding.p12,
+            child: _renderStreamLabel(),
+          ),
+        ],
+      ),
     );
   }
 

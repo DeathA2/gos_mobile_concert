@@ -5,9 +5,11 @@ import 'package:mobile_concert/src/features/common/view/not_found_view.dart';
 import 'package:mobile_concert/src/features/dashboard/logic/navigation_bar_item.dart';
 import 'package:mobile_concert/src/features/dashboard/view/dashboard_view.dart';
 import 'package:mobile_concert/src/features/home/view/home_view.dart';
+import 'package:mobile_concert/src/features/livestream/view/video_live_fullscreen.dart';
 import 'package:mobile_concert/src/features/livestream/view/video_live_widget.dart';
 import 'package:mobile_concert/src/features/photo_view/photo_view_page.dart';
 import 'package:mobile_concert/src/router/coordinator.dart';
+import 'package:mobile_concert/src/router/extras/live_stream_extra.dart';
 import 'package:mobile_concert/src/router/extras/photo_view_extra.dart';
 import 'package:mobile_concert/src/router/route_name.dart';
 import 'package:tencent_live_uikit/live_navigator_observer.dart';
@@ -32,26 +34,29 @@ class AppRouter {
             pageBuilder: (context, state) =>
                 const NoTransitionPage(child: HomeView()),
             routes: <RouteBase>[
-              // GoRoute(
-              //   parentNavigatorKey: AppCoordinator.navigatorKey,
-              //   path: AppRouteNames.sample.subPath,
-              //   name: AppRouteNames.sample.name,
-              //   builder: (_, __) => const SampleItemListView(),
-              //   routes: <RouteBase>[
-              //     GoRoute(
-              //       parentNavigatorKey: AppCoordinator.navigatorKey,
-              //       path: AppRouteNames.sampleDetails.buildSubPathParam,
-              //       name: AppRouteNames.sampleDetails.name,
-              //       builder: (_, state) {
-              //         final id =
-              //             state.pathParameters[AppRouteNames
-              //                 .sampleDetails
-              //                 .paramName]!;
-              //         return SampleItemDetailsView(id: id);
-              //       },
-              //     ),
-              //   ],
-              // ),
+              GoRoute(
+                parentNavigatorKey: AppCoordinator.navigatorKey,
+                path: AppRouteNames.videoLiveFullScreen.subPath,
+                name: AppRouteNames.videoLiveFullScreen.name,
+                builder: (_, state) {
+                  LiveStreamExtra extra = state.extra as LiveStreamExtra;
+                  return VideoLiveFullScreen(post: extra.post);
+                },
+                //   routes: <RouteBase>[
+                //     GoRoute(
+                //       parentNavigatorKey: AppCoordinator.navigatorKey,
+                //       path: AppRouteNames.sampleDetails.buildSubPathParam,
+                //       name: AppRouteNames.sampleDetails.name,
+                //       builder: (_, state) {
+                //         final id =
+                //             state.pathParameters[AppRouteNames
+                //                 .sampleDetails
+                //                 .paramName]!;
+                //         return SampleItemDetailsView(id: id);
+                //       },
+                //     ),
+                //   ],
+              ),
             ],
           ),
           GoRoute(

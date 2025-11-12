@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile_concert/src/network/model/post.dart';
+import 'package:mobile_concert/src/router/extras/live_stream_extra.dart';
 import 'package:mobile_concert/src/router/extras/photo_view_extra.dart';
 import 'package:mobile_concert/src/router/route_name.dart';
 import 'package:mobile_concert/src/router/router.dart';
@@ -59,5 +60,12 @@ class AppCoordinator {
   }) => context.pushNamed(
     AppRouteNames.photoView.name,
     extra: PhotoViewExtra(listMedia, infor: post, initialIndex: index),
+  );
+
+    static void showLiveStreamFullScreen({
+    required MPost post,
+  }) => context.pushNamed(
+    AppRouteNames.videoLiveFullScreen.name,
+    extra: LiveStreamExtra(post),
   );
 }

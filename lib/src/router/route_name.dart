@@ -9,7 +9,8 @@ enum AppRouteNames {
   profile(path: '/profile'),
   settings(path: '/settings'),
   photoView(path: '/photoView'),
-  videoLive(path: '/video-live');
+  videoLive(path: '/video-live'),
+  videoLiveFullScreen(path: '/video-live-fullscreen');
 
   const AppRouteNames({required this.path, this.paramName});
 

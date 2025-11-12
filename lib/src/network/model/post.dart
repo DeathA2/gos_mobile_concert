@@ -13,6 +13,8 @@ class MPost extends Equatable {
   final DateTime createAt;
   final String owner;
   final MUser? ownerUser;
+  final String streamHostId;
+  final int streamRoom;
 
   const MPost({
     required this.id,
@@ -22,6 +24,8 @@ class MPost extends Equatable {
     required this.createAt,
     required this.owner,
     this.ownerUser,
+    required this.streamHostId,
+    required this.streamRoom,
   });
 
   @override
@@ -33,6 +37,8 @@ class MPost extends Equatable {
     createAt,
     owner,
     ownerUser,
+    streamHostId,
+    streamRoom,
   ];
 
   MPost copyWith({
@@ -43,6 +49,8 @@ class MPost extends Equatable {
     DateTime? createAt,
     String? owner,
     MUser? ownerUser,
+    String? streamHostId,
+    int? streamRoom,
   }) {
     return MPost(
       id: id ?? this.id,
@@ -52,6 +60,8 @@ class MPost extends Equatable {
       createAt: createAt ?? this.createAt,
       owner: owner ?? this.owner,
       ownerUser: ownerUser ?? this.ownerUser,
+      streamHostId: streamHostId ?? this.streamHostId,
+      streamRoom: streamRoom ?? this.streamRoom,
     );
   }
 
@@ -63,6 +73,8 @@ class MPost extends Equatable {
       'is_stream': isStream,
       'created_at': createAt.millisecondsSinceEpoch,
       'owner': owner,
+      'stream_host_id': streamHostId,
+      'stream_room': streamRoom,
     };
   }
 
@@ -74,6 +86,8 @@ class MPost extends Equatable {
       isStream: map['is_stream'] as bool,
       createAt: DateTime.fromMillisecondsSinceEpoch(map['created_at'] as int),
       owner: map['owner'] as String,
+      streamHostId: map['stream_host_id'] as String? ?? "",
+      streamRoom: map['stream_room'] as int? ?? 0,
     );
   }
 
@@ -86,6 +100,8 @@ class MPost extends Equatable {
       isStream: map['is_stream'] as bool,
       createAt: (map['created_at'] as Timestamp).toDate(),
       owner: map['owner'] as String,
+      streamHostId: map['stream_host_id'] as String? ?? "",
+      streamRoom: map['stream_room'] as int? ?? 0,
     );
   }
 

@@ -32,6 +32,18 @@ class $AssetsImagesGen {
 class $AssetsLottiesGen {
   const $AssetsLottiesGen();
 
+  /// File path: assets/lotties/gift_animation.json
+  LottieGenImage get giftAnimation =>
+      const LottieGenImage('assets/lotties/gift_animation.json');
+
+  /// File path: assets/lotties/heart_animation.json
+  LottieGenImage get heartAnimation =>
+      const LottieGenImage('assets/lotties/heart_animation.json');
+
+  /// File path: assets/lotties/like_animation.json
+  LottieGenImage get likeAnimation =>
+      const LottieGenImage('assets/lotties/like_animation.json');
+
   /// File path: assets/lotties/location-animation.json
   LottieGenImage get locationAnimation =>
       const LottieGenImage('assets/lotties/location-animation.json');
@@ -44,7 +56,14 @@ class $AssetsLottiesGen {
       const LottieGenImage('assets/lotties/rocket.json');
 
   /// List of all assets
-  List<LottieGenImage> get values => [locationAnimation, love, rocket];
+  List<LottieGenImage> get values => [
+    giftAnimation,
+    heartAnimation,
+    likeAnimation,
+    locationAnimation,
+    love,
+    rocket,
+  ];
 }
 
 class $AssetsSvgsGen {
@@ -107,6 +126,22 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/ic_slack.svg
   SvgGenImage get icSlack => const SvgGenImage('assets/svgs/ic_slack.svg');
 
+  /// File path: assets/svgs/ic_stream_gift.svg
+  SvgGenImage get icStreamGift =>
+      const SvgGenImage('assets/svgs/ic_stream_gift.svg');
+
+  /// File path: assets/svgs/ic_stream_heart.svg
+  SvgGenImage get icStreamHeart =>
+      const SvgGenImage('assets/svgs/ic_stream_heart.svg');
+
+  /// File path: assets/svgs/ic_stream_like.svg
+  SvgGenImage get icStreamLike =>
+      const SvgGenImage('assets/svgs/ic_stream_like.svg');
+
+  /// File path: assets/svgs/ic_stream_money.svg
+  SvgGenImage get icStreamMoney =>
+      const SvgGenImage('assets/svgs/ic_stream_money.svg');
+
   /// File path: assets/svgs/ic_user_default.svg
   SvgGenImage get icUserDefault =>
       const SvgGenImage('assets/svgs/ic_user_default.svg');
@@ -149,6 +184,10 @@ class $AssetsSvgsGen {
     icSave,
     icSearch,
     icSlack,
+    icStreamGift,
+    icStreamHeart,
+    icStreamLike,
+    icStreamMoney,
     icUserDefault,
     icVerify,
     stateEmpty,
