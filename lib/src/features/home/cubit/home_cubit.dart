@@ -23,7 +23,7 @@ class HomeCubit extends Cubit<HomeState> {
     _getListPost();
   }
 
-  final _userId = 'philip_2';
+  final _userId = 'philip';
 
   void _login() async {
     AppStore.userId = _userId;
@@ -34,27 +34,27 @@ class HomeCubit extends Cubit<HomeState> {
     emit(state.copyWith(listUser: listUser.data ?? []));
   }
 
+  List<MUser> getRandomUser(String hostUserId, {int number = 2}) {
+    final availableUsers = state.listUser
+        .where((u) => u.id != hostUserId)
+        .toList();
 
-List<MUser> getRandomUser(String hostUserId, {int number = 2}) {
-  final availableUsers =
-      state.listUser.where((u) => u.id != hostUserId).toList();
+    if (availableUsers.isEmpty) return [];
 
-  if (availableUsers.isEmpty) return [];
+    final count = min(number, availableUsers.length);
 
-  final count = min(number, availableUsers.length);
+    final random = Random();
+    final List<MUser> selected = [];
 
-  final random = Random();
-  final List<MUser> selected = [];
-
-  while (selected.length < count) {
-    final user = availableUsers[random.nextInt(availableUsers.length)];
-    if (!selected.contains(user)) {
-      selected.add(user);
+    while (selected.length < count) {
+      final user = availableUsers[random.nextInt(availableUsers.length)];
+      if (!selected.contains(user)) {
+        selected.add(user);
+      }
     }
-  }
 
-  return selected;
-}
+    return selected;
+  }
 
   Future<void> _getListPost() async {
     final listPost = await postRepo.getAllPosts();

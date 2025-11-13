@@ -4,6 +4,7 @@ import 'package:mobile_concert/generated/assets/assets.gen.dart';
 import 'package:mobile_concert/generated/assets/fonts.gen.dart';
 import 'package:mobile_concert/src/features/home/cubit/home_cubit.dart';
 import 'package:mobile_concert/widgets/post/social_post.dart';
+import 'package:mobile_concert/widgets/post/social_post_skeleton.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -46,6 +47,15 @@ class HomeView extends StatelessWidget {
     return BlocBuilder<HomeCubit, HomeState>(
       buildWhen: (previous, current) => previous.listPost != current.listPost,
       builder: (context, state) {
+        if (state.listPost.isEmpty) {
+          // Hiển thị 5 Skeleton khi chưa load xong
+          return SliverList.separated(
+            itemCount: 5,
+            itemBuilder: (_, _) => const XSocialPostSkeleton(),
+            separatorBuilder: (_, _) => const SizedBox(height: 4),
+          );
+        }
+
         return SliverList.separated(
           itemCount: state.listPost.length,
           itemBuilder: (_, index) =>
