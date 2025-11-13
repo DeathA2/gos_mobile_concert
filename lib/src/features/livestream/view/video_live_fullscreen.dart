@@ -1,9 +1,10 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobile_concert/generated/assets/assets.gen.dart';
-import 'package:mobile_concert/src/config/env/env.dart';
+import 'package:mobile_concert/packages/dismiss_keyboard/dismiss_keyboard.dart';
 import 'package:mobile_concert/src/features/home/cubit/home_cubit.dart';
 import 'package:mobile_concert/src/features/livestream/modal/stream_reaction_enum.dart';
 import 'package:mobile_concert/src/network/model/post.dart';
@@ -11,17 +12,20 @@ import 'package:mobile_concert/src/network/model/user.dart';
 import 'package:mobile_concert/src/router/coordinator.dart';
 import 'package:mobile_concert/src/services/tencent_cloud_service.dart';
 import 'package:mobile_concert/src/theme/colors.dart';
+import 'package:mobile_concert/src/theme/screen.dart';
 import 'package:mobile_concert/src/theme/styles.dart';
 import 'package:mobile_concert/src/theme/values.dart';
-import 'package:mobile_concert/src/utils/app_store.dart';
-import 'package:mobile_concert/src/utils/generate_user_sig.dart';
 import 'package:mobile_concert/widgets/avatar/avatar.dart';
-import 'package:tencent_trtc_cloud/trtc_cloud_def.dart';
 import 'package:tencent_trtc_cloud/trtc_cloud_video_view.dart';
 
 class VideoLiveFullScreen extends StatefulWidget {
-  const VideoLiveFullScreen({super.key, required this.post});
+  const VideoLiveFullScreen({
+    super.key,
+    required this.post,
+    required this.messages,
+  });
   final MPost post;
+  final List<String> messages;
 
   @override
   State<VideoLiveFullScreen> createState() => _VideoLiveFullScreenState();
@@ -31,50 +35,128 @@ class _VideoLiveFullScreenState extends State<VideoLiveFullScreen> {
   final liveService = TencentLiveCloudService();
   late MUser owner;
 
+  bool _showLottie = false;
+  LottieGenImage? _lottieAsset;
+
+  final List<String> _messages = [];
+  final TextEditingController _chatController = TextEditingController();
+  int _messIndex = 0;
+  Timer? _messTimer;
+
+  final ScrollController _scrollController = ScrollController();
+  double _scrollOffset = 0.0;
+
+  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
+
   @override
   void initState() {
     owner = widget.post.ownerUser ?? MUser.empty();
-    _initStreamData();
+    _startStreamMessages();
 
+    _scrollController.addListener(() {
+      setState(() {
+        _scrollOffset = _scrollController.offset;
+      });
+    });
     super.initState();
   }
 
   @override
   void dispose() {
-    liveService.exitRoom();
+    liveService.stopRemoteStream(widget.post.streamHostId);
+    _chatController.dispose();
+    _messTimer?.cancel();
+    _scrollController.dispose();
     super.dispose();
   }
 
-  Future<void> _initStreamData() async {
-    await liveService.enterRoom(
-      sdkAppId: ENV.I.sdkAppId,
-      userId: AppStore.userId,
-      userSig: GenerateUserSig.genTestSig(AppStore.userId),
-      roomId: widget.post.streamRoom,
-      role: TRTCCloudDef.TRTCRoleAudience,
-      scene: TRTCCloudDef.TRTC_APP_SCENE_LIVE,
-    );
+  void _startStreamMessages() {
+    if (widget.messages.isEmpty) return;
+
+    _messTimer = Timer.periodic(const Duration(seconds: 2), (timer) {
+      if (_messIndex < widget.messages.length) {
+        final msg = widget.messages[_messIndex];
+        _messages.insert(0, msg);
+        _listKey.currentState?.insertItem(0);
+        _messIndex++;
+      } else {
+        timer.cancel();
+      }
+    });
+  }
+
+  void _showReaction(StreamReaction react) {
+    switch (react) {
+      case StreamReaction.love:
+        _lottieAsset = Assets.lotties.love;
+        break;
+      case StreamReaction.like:
+        _lottieAsset = Assets.lotties.likeAnimation;
+        break;
+      case StreamReaction.gift:
+        _lottieAsset = Assets.lotties.giftAnimation;
+        break;
+    }
+
+    setState(() => _showLottie = true);
+
+    Future.delayed(const Duration(seconds: 1), () {
+      if (mounted) setState(() => _showLottie = false);
+    });
+  }
+
+  void _sendMessage() {
+    final text = _chatController.text.trim();
+    if (text.isEmpty) return;
+
+    final newMsg = "Bạn: $text";
+
+    _messages.insert(0, newMsg);
+    _listKey.currentState?.insertItem(0);
+
+    _chatController.clear();
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Stack(
-          children: [
-            TRTCCloudVideoView(
-              onViewCreated: (viewId) {
-                liveService.startRemoteStream(
-                  userId: widget.post.streamHostId,
-                  viewId: viewId,
-                );
-              },
-            ),
-            Positioned(top: 8, left: 8, child: _renderStreamerAvatar()),
-            Positioned(top: 8, right: 8, child: _renderTopLeftSection()),
-            Positioned(bottom: 8, left: 8, right: 8, child: _renderBottomBar()),
-          ],
+      child: DismissKeyBoard(
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Stack(
+            children: [
+              TRTCCloudVideoView(
+                onViewCreated: (viewId) {
+                  liveService.startRemoteStream(
+                    userId: widget.post.streamHostId,
+                    viewId: viewId,
+                  );
+                },
+              ),
+              Positioned(top: 8, left: 8, child: _renderStreamerAvatar()),
+              Positioned(top: 8, right: 8, child: _renderTopLeftSection()),
+              Positioned(
+                bottom: 8,
+                left: 8,
+                right: 8,
+                child: _renderBottomBar(),
+              ),
+
+              if (_showLottie && _lottieAsset != null)
+                Positioned.fill(
+                  child: Container(
+                    color: Colors.black54.withAlpha(100),
+                    child: Center(
+                      child: _lottieAsset?.lottie(
+                        width: AppSizes.s200,
+                        height: AppSizes.s200,
+                        repeat: false,
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
         ),
       ),
     );
@@ -132,28 +214,141 @@ class _VideoLiveFullScreenState extends State<VideoLiveFullScreen> {
   }
 
   Widget _renderBottomBar() {
-    return Row(
-      children: [
-        Expanded(child: SizedBox()),
-        _renderListReactionButton(),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildChatMessages(),
+          const SizedBox(height: 8),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(24),
+                    border: Border.all(color: AppColors.divider),
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: AppPadding.p8),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: _chatController,
+                          style: AppStyles.inputStyle.copyWith(
+                            color: Colors.white,
+                          ),
+                          decoration: const InputDecoration(
+                            hintText: "Chat now...",
+                            hintStyle: TextStyle(color: Colors.white70),
+                            border: InputBorder.none,
+                          ),
+                          onSubmitted: (_) => _sendMessage(),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: _sendMessage,
+                        child: const Icon(
+                          Icons.send,
+                          color: Colors.white,
+                          size: 20,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              const SizedBox(width: 8),
+
+              _renderListReactionButton(),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildChatMessages() {
+    return SizedBox(
+      height: AppSizes.s175,
+      width: AppScreens.width * 2 / 3,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final double visibleHeight = constraints.maxHeight;
+
+          return AnimatedList(
+            key: _listKey,
+            controller: _scrollController,
+            reverse: true,
+            initialItemCount: _messages.length,
+            itemBuilder: (context, index, animation) {
+              final msg = _messages[index];
+
+              return SizeTransition(
+                sizeFactor: animation,
+                axisAlignment: -1,
+                child: FadeTransition(
+                  opacity: animation,
+                  child: _buildChatItem(msg, index, visibleHeight),
+                ),
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildChatItem(String msg, int index, double visibleHeight) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final double itemHeight = 36;
+        final double itemY = index * itemHeight - _scrollOffset;
+        final double normalized = (itemY / visibleHeight).clamp(0.0, 1.0);
+        final double opacity = 1.0 - normalized * 0.85;
+
+        return Opacity(
+          opacity: opacity.clamp(0.2, 1.0),
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: AppPadding.p2),
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: AppPadding.p12,
+                vertical: AppPadding.p4,
+              ),
+              decoration: BoxDecoration(color: Colors.black38),
+              child: Text(
+                msg,
+                style: AppStyles.titleSmall.copyWith(color: Colors.white),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 
   Widget _renderListReactionButton() {
     return Row(
       children: [
-        Assets.svgs.icStreamHeart.svg(width: AppSizes.s40),
+        _renderReactionButton(Assets.svgs.icStreamHeart, StreamReaction.love),
         SizedBox(width: AppPadding.p8),
-        Assets.svgs.icStreamLike.svg(width: AppSizes.s40),
+        _renderReactionButton(Assets.svgs.icStreamLike, StreamReaction.like),
         SizedBox(width: AppPadding.p8),
-        Assets.svgs.icStreamGift.svg(width: AppSizes.s40),
+        _renderReactionButton(Assets.svgs.icStreamGift, StreamReaction.gift),
       ],
     );
   }
 
   Widget _renderReactionButton(SvgGenImage icon, StreamReaction react) {
-    return GestureDetector();
+    return GestureDetector(
+      onTap: () => _showReaction(react),
+      child: icon.svg(width: AppSizes.s40),
+    );
   }
 }
 

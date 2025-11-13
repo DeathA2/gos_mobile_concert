@@ -62,10 +62,11 @@ class AppCoordinator {
     extra: PhotoViewExtra(listMedia, infor: post, initialIndex: index),
   );
 
-    static void showLiveStreamFullScreen({
+  static Future<void> showLiveStreamFullScreen({
     required MPost post,
+    required List<String> messages,
   }) => context.pushNamed(
     AppRouteNames.videoLiveFullScreen.name,
-    extra: LiveStreamExtra(post),
+    extra: LiveStreamExtra(post, messages),
   );
 }

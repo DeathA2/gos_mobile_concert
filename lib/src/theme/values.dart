@@ -7,6 +7,7 @@ class AppSizes {
   static double s50 = 50.0;
   static double s70 = 70.0;
   static double s120 = 120.0;
+  static double s175 = 175.0;
   static double s200 = 200.0;
   static double s600 = 600.0;
 }
@@ -20,6 +21,7 @@ class AppBorderRadius {
 }
 
 class AppPadding {
+  static double p2 = 2.0;
   static double p4 = 4.0;
   static double p8 = 8.0;
   static double p12 = 12.0;

@@ -7,7 +7,9 @@ import 'package:tencent_trtc_cloud/trtc_cloud_def.dart';
 import 'package:tencent_trtc_cloud/trtc_cloud_video_view.dart';
 
 class LiveVideoCustom extends StatefulWidget {
-  const LiveVideoCustom({super.key});
+  const LiveVideoCustom({super.key, required this.hostId, required this.roomId});
+  final String hostId;
+  final int roomId;
 
   @override
   State<LiveVideoCustom> createState() => _LiveVideoCustomState();
@@ -34,7 +36,7 @@ class _LiveVideoCustomState extends State<LiveVideoCustom> {
       sdkAppId: ENV.I.sdkAppId,
       userId: AppStore.userId,
       userSig: GenerateUserSig.genTestSig(AppStore.userId),
-      roomId: 1001,
+      roomId: widget.roomId,
       role: TRTCCloudDef.TRTCRoleAudience,
       scene: TRTCCloudDef.TRTC_APP_SCENE_LIVE,
     );
@@ -45,7 +47,8 @@ class _LiveVideoCustomState extends State<LiveVideoCustom> {
     return IgnorePointer(
       child: TRTCCloudVideoView(
         onViewCreated: (viewId) {
-          liveService.startRemoteStream(userId: "philip", viewId: viewId);
+          TencentLiveCloudService().viewId = viewId;
+          liveService.startRemoteStream(userId: widget.hostId, viewId: viewId);
         },
       ),
     );

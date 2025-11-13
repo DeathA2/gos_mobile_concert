@@ -40,7 +40,10 @@ class AppRouter {
                 name: AppRouteNames.videoLiveFullScreen.name,
                 builder: (_, state) {
                   LiveStreamExtra extra = state.extra as LiveStreamExtra;
-                  return VideoLiveFullScreen(post: extra.post);
+                  return VideoLiveFullScreen(
+                    post: extra.post,
+                    messages: extra.messages,
+                  );
                 },
                 //   routes: <RouteBase>[
                 //     GoRoute(

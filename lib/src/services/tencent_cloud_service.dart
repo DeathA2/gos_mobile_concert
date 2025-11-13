@@ -13,6 +13,7 @@ class TencentLiveCloudService {
   // SDK instance
   TRTCCloud? _trtcCloud;
   bool _isInitialized = false;
+  int _currentViewId = 0;
 
   // final Map<String, VideoOrientation> _userOrientation = {};
 
@@ -29,6 +30,12 @@ class TencentLiveCloudService {
     }
     return _trtcCloud!;
   }
+
+  set viewId(int id) {
+    _currentViewId = id;
+  }
+
+  int get getViewId => _currentViewId;
 
   Future<void> enterRoom({
     required int sdkAppId,
@@ -100,6 +107,10 @@ class TencentLiveCloudService {
     await TRTCCloud.destroySharedInstance();
     _trtcCloud = null;
     _isInitialized = false;
+  }
+
+  void stopRemoteStream(String userId) {
+    _trtcCloud?.stopRemoteView(userId, TRTCCloudDef.TRTC_VIDEO_STREAM_TYPE_BIG);
   }
 
   void _onTrtcListener(TRTCCloudListener type, dynamic params) {

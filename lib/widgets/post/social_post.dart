@@ -11,6 +11,7 @@ import 'package:mobile_concert/src/features/home/cubit/home_cubit.dart';
 import 'package:mobile_concert/src/network/model/post.dart';
 import 'package:mobile_concert/src/network/model/user.dart';
 import 'package:mobile_concert/src/router/coordinator.dart';
+import 'package:mobile_concert/src/services/tencent_cloud_service.dart';
 import 'package:mobile_concert/src/theme/colors.dart';
 import 'package:mobile_concert/src/theme/styles.dart';
 import 'package:mobile_concert/src/theme/values.dart';
@@ -179,15 +180,34 @@ class _XSocialPostState extends State<XSocialPost> {
 
   Widget _renderStreamView() {
     return GestureDetector(
-      onTap: () =>
-          AppCoordinator.showLiveStreamFullScreen(post: widget.postInfo),
+      onTap: () async {
+        await AppCoordinator.showLiveStreamFullScreen(
+          post: widget.postInfo,
+          messages: [
+            "Minh: Idol ơi hát bài này đi 🎤",
+            "Lan: Hay quáaaa 😍",
+            "Phong: Mọi người thả tim nào ❤️",
+            "Huy: Chất lượng quá 🔥",
+            "My: Gửi 100 xu nè 💎",
+          ],
+        );
+
+        TencentLiveCloudService().startRemoteStream(
+          userId: widget.postInfo.streamHostId,
+          viewId: TencentLiveCloudService().getViewId,
+        );
+      },
+
       child: Stack(
         children: [
           Container(
             width: double.infinity,
             height: AppConstants.mediaMaxHeight,
             color: Colors.red,
-            child: LiveVideoCustom(),
+            child: LiveVideoCustom(
+              hostId: widget.postInfo.streamHostId,
+              roomId: widget.postInfo.streamRoom,
+            ),
           ),
           Positioned(
             top: AppPadding.p12,
