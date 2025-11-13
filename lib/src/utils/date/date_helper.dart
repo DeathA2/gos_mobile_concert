@@ -24,16 +24,20 @@ class DateHelper {
         time.month == today.month &&
         time.day == today.day) {
       // Same day
-      return DateFormat('hh:mm').format(time);
+      int diffHours = today.difference(time).inHours;
+      if (diffHours == 0) {
+        return "${today.difference(time).inMinutes}m";
+      }
+      return "${today.difference(time).inHours}h";
     } else if (today.in7Days(time)) {
       // Same week
-      return DateFormat('EEE At hh:mm').format(time);
+      return "${today.difference(time).inDays}d";
     } else if (time.year == today.year) {
       // Same year
-      return DateFormat('MMMM dd At hh:mm').format(time);
+      return DateFormat('MMM dd').format(time);
     } else {
       // Other
-      return DateFormat('MMMM dd yyyy').format(time);
+      return DateFormat('MMM dd yyyy').format(time);
     }
   }
 
@@ -113,24 +117,25 @@ class DateHelper {
       return date;
     } else {
       return date.subtract(
-          Duration(days: getWeekDay(date, startWeekWithSunday) - dayOfWeek));
+        Duration(days: getWeekDay(date, startWeekWithSunday) - dayOfWeek),
+      );
     }
   }
 
   static List<int> daysPerMonth(int year) => <int>[
-        31,
-        _isLeapYear(year) ? 29 : 28,
-        31,
-        30,
-        31,
-        30,
-        31,
-        31,
-        30,
-        31,
-        30,
-        31,
-      ];
+    31,
+    _isLeapYear(year) ? 29 : 28,
+    31,
+    30,
+    31,
+    30,
+    31,
+    31,
+    30,
+    31,
+    30,
+    31,
+  ];
 
   /// efficient leap year calculation transcribed from a C stack overflow answer
   static bool _isLeapYear(int year) {

@@ -195,11 +195,13 @@ class _XSocialPostState extends State<XSocialPost> {
           ],
         );
 
-        TencentLiveCloudService().startRemoteStream(
-          userId: widget.postInfo.streamHostId,
-          viewId: TencentLiveCloudService().getViewId,
-          fillMode: TRTCCloudDef.TRTC_VIDEO_RENDER_MODE_FILL,
-        );
+        Future.delayed(Durations.medium4, () {
+          TencentLiveCloudService().startRemoteStream(
+            userId: widget.postInfo.streamHostId,
+            viewId: TencentLiveCloudService().getViewId,
+            fillMode: TRTCCloudDef.TRTC_VIDEO_RENDER_MODE_FILL,
+          );
+        });
       },
 
       child: Stack(

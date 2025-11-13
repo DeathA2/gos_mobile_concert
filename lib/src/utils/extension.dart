@@ -11,4 +11,9 @@ extension StringUrl on String {
     }
     return text;
   }
+
+  String capitalize() {
+    if (isEmpty) return this;
+    return this[0].toUpperCase() + substring(1);
+  }
 }

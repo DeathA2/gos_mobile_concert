@@ -15,6 +15,8 @@ import 'package:mobile_concert/src/theme/colors.dart';
 import 'package:mobile_concert/src/theme/screen.dart';
 import 'package:mobile_concert/src/theme/styles.dart';
 import 'package:mobile_concert/src/theme/values.dart';
+import 'package:mobile_concert/src/utils/app_store.dart';
+import 'package:mobile_concert/src/utils/extension.dart';
 import 'package:mobile_concert/widgets/avatar/avatar.dart';
 import 'package:tencent_trtc_cloud/trtc_cloud_video_view.dart';
 
@@ -86,19 +88,29 @@ class _VideoLiveFullScreenState extends State<VideoLiveFullScreen> {
   }
 
   void _showReaction(StreamReaction react) {
+    String _action = "";
     switch (react) {
       case StreamReaction.love:
         _lottieAsset = Assets.lotties.love;
+        _action = "love ❤️";
         break;
       case StreamReaction.like:
         _lottieAsset = Assets.lotties.likeAnimation;
+        _action = "like 👍";
         break;
       case StreamReaction.gift:
         _lottieAsset = Assets.lotties.giftAnimation;
+        _action = "gift 🎁";
         break;
     }
 
     setState(() => _showLottie = true);
+
+    final newMsg =
+        "${AppStore.userId.capitalize()} has sent a $_action to this Streamer";
+
+    _messages.insert(0, newMsg);
+    _listKey.currentState?.insertItem(0);
 
     Future.delayed(const Duration(seconds: 1), () {
       if (mounted) setState(() => _showLottie = false);
@@ -109,7 +121,7 @@ class _VideoLiveFullScreenState extends State<VideoLiveFullScreen> {
     final text = _chatController.text.trim();
     if (text.isEmpty) return;
 
-    final newMsg = "Bạn: $text";
+    final newMsg = "${AppStore.userId.capitalize()}: $text";
 
     _messages.insert(0, newMsg);
     _listKey.currentState?.insertItem(0);

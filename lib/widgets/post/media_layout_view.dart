@@ -236,7 +236,7 @@ class _MediaPageState extends State<_MediaPage>
           maxWidth: double.infinity,
           minWidth: double.infinity,
         ),
-        child: XCachedVideo(videoUrl: widget.url, autoPlay: true, loop: true),
+        child: XCachedVideo(videoUrl: widget.url, autoPlay: false, loop: false),
       );
     }
     return XDoubleTapLike(

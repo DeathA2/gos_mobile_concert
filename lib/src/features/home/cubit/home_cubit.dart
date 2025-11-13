@@ -23,7 +23,7 @@ class HomeCubit extends Cubit<HomeState> {
     _getListPost();
   }
 
-  final _userId = 'philip';
+  final _userId = 'lance';
 
   void _login() async {
     AppStore.userId = _userId;
