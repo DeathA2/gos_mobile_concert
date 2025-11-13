@@ -1,6 +1,7 @@
 import 'package:cached_video_player_plus/cached_video_player_plus.dart';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_concert/widgets/video/minimal_control.dart';
 
 /// Custom reusable video player widget using Chewie + cached_video_player_plus
 class XCachedVideo extends StatefulWidget {
@@ -68,6 +69,7 @@ class _XCachedVideoState extends State<XCachedVideo> {
         placeholder: widget.placeholder,
         showControls: true,
         allowFullScreen: true,
+        customControls: MinimalCenterControls(),
       );
 
       if (mounted) {

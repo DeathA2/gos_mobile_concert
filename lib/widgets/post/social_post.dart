@@ -79,22 +79,32 @@ class _XSocialPostState extends State<XSocialPost> {
     return Container(
       padding: EdgeInsets.fromLTRB(12, 0, 12, 4),
       width: double.infinity,
-      child: RichText(
-        textAlign: TextAlign.start,
-        text: TextSpan(
-          children: [
-            TextSpan(text: 'Liked by ', style: AppStyles.body),
-            TextSpan(
-              text: randomUser?.name,
-              style: AppStyles.body.copyWith(fontWeight: FontWeight.w600),
+      child: BlocBuilder<HomeCubit, HomeState>(
+        buildWhen: (pre, cur) => pre.likedPosts != cur.likedPosts,
+        builder: (context, state) {
+          return RichText(
+            textAlign: TextAlign.start,
+            text: TextSpan(
+              children: [
+                TextSpan(text: 'Liked by ', style: AppStyles.body),
+                if (context.read<HomeCubit>().alreadyLikedPost(postId))
+                  TextSpan(
+                    text: "You, ",
+                    style: AppStyles.body.copyWith(fontWeight: FontWeight.w600),
+                  ),
+                TextSpan(
+                  text: randomUser?.name,
+                  style: AppStyles.body.copyWith(fontWeight: FontWeight.w600),
+                ),
+                TextSpan(text: ' and ', style: AppStyles.body),
+                TextSpan(
+                  text: 'others',
+                  style: AppStyles.body.copyWith(fontWeight: FontWeight.w600),
+                ),
+              ],
             ),
-            TextSpan(text: ' and ', style: AppStyles.body),
-            TextSpan(
-              text: 'others',
-              style: AppStyles.body.copyWith(fontWeight: FontWeight.w600),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
@@ -209,7 +219,7 @@ class _XSocialPostState extends State<XSocialPost> {
           Container(
             width: double.infinity,
             height: AppConstants.mediaMaxHeight,
-            color: Colors.red,
+            color: AppColors.black,
             child: LiveVideoCustom(
               hostId: widget.postInfo.streamHostId,
               roomId: widget.postInfo.streamRoom,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_concert/src/config/env/env.dart';
 import 'package:mobile_concert/src/services/tencent_cloud_service.dart';
+import 'package:mobile_concert/src/theme/colors.dart';
 import 'package:mobile_concert/src/utils/app_store.dart';
 import 'package:mobile_concert/src/utils/generate_user_sig.dart';
 import 'package:tencent_trtc_cloud/trtc_cloud_def.dart';
@@ -21,12 +22,12 @@ class LiveVideoCustom extends StatefulWidget {
 
 class _LiveVideoCustomState extends State<LiveVideoCustom> {
   final liveService = TencentLiveCloudService();
+  bool _remoteVideoAvailable = false;
 
   @override
   void initState() {
-    _initStreamData();
-
     super.initState();
+    _initStreamData();
   }
 
   @override
@@ -44,21 +45,43 @@ class _LiveVideoCustomState extends State<LiveVideoCustom> {
       role: TRTCCloudDef.TRTCRoleAudience,
       scene: TRTCCloudDef.TRTC_APP_SCENE_LIVE,
     );
+
+    liveService.remoteVideoAvailableCallback = (available) {
+      setState(() => _remoteVideoAvailable = available);
+    };
   }
 
   @override
   Widget build(BuildContext context) {
-    return IgnorePointer(
-      child: TRTCCloudVideoView(
-        onViewCreated: (viewId) {
-          TencentLiveCloudService().viewId = viewId;
-          liveService.startRemoteStream(
-            userId: widget.hostId,
-            viewId: viewId,
-            fillMode: TRTCCloudDef.TRTC_VIDEO_RENDER_MODE_FILL,
-          );
-        },
-      ),
+    return Stack(
+      children: [
+        TRTCCloudVideoView(
+          onViewCreated: (viewId) {
+            liveService.viewId = viewId;
+            liveService.startRemoteStream(
+              userId: widget.hostId,
+              viewId: viewId,
+              fillMode: TRTCCloudDef.TRTC_VIDEO_RENDER_MODE_FILL,
+            );
+          },
+        ),
+        if (!_remoteVideoAvailable)
+          Positioned.fill(
+            child: Container(
+              color: AppColors.black,
+              child: const Center(
+                child: Text(
+                  "This stream has ended",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ),
+      ],
     );
   }
 }

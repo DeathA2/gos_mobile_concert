@@ -17,6 +17,12 @@ class TencentLiveCloudService {
 
   // final Map<String, VideoOrientation> _userOrientation = {};
 
+  Function(bool available)? _remoteVideoAvailableCallback;
+
+  set remoteVideoAvailableCallback(Function(bool available)? callback) {
+    _remoteVideoAvailableCallback = callback;
+  }
+
   Future<void> init() async {
     if (_isInitialized) return;
     _trtcCloud = await TRTCCloud.sharedInstance();
@@ -121,24 +127,17 @@ class TencentLiveCloudService {
   }
 
   void _onTrtcListener(TRTCCloudListener type, dynamic params) {
-    if (type == TRTCCloudListener.onFirstVideoFrame) {
-      final String userId = params['userId'] ?? '';
-      final int width =
-          params['width'] ?? params['newWidth'] ?? params['videoWidth'] ?? 0;
-      final int height =
-          params['height'] ?? params['newHeight'] ?? params['videoHeight'] ?? 0;
+    switch (type) {
+      case TRTCCloudListener.onFirstVideoFrame:
+        break;
 
-      if (userId.isEmpty || width == 0 || height == 0) return;
+      case TRTCCloudListener.onUserVideoAvailable:
+        final bool available = params['available'] ?? false;
+        _remoteVideoAvailableCallback?.call(available);
+        break;
 
-      // final orientation = width > height
-      //     ? VideoOrientation.landscape
-      //     : VideoOrientation.portrait;
-
-      // final previous = _userOrientation[userId];
-      // if (previous != orientation) {
-      //   _userOrientation[userId] = orientation;
-      //   onOrientationChanged?.call(userId, orientation);
-      // }
+      default:
+        break;
     }
   }
 }
