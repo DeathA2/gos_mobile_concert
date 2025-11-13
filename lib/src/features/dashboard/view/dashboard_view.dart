@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:mobile_concert/src/features/dashboard/logic/navigation_bar_item.dart';
 import 'package:mobile_concert/src/features/common/logic/lifecycle_mixin.dart';
 import 'package:mobile_concert/src/features/dashboard/widget/bottom_navigation_bar.dart';
@@ -23,6 +24,12 @@ class DashBoardScreen extends StatefulWidget {
 }
 
 class _DashBoardScreenState extends State<DashBoardScreen> with LifecycleMixin {
+  @override
+  void initState() {
+    FlutterNativeSplash.remove();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

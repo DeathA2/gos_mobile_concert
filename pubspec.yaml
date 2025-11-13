@@ -48,6 +48,7 @@ dependencies:
   cached_video_player_plus: ^4.0.4
   video_player: ^2.10.0
   chewie: ^1.13.0
+  flutter_native_splash: ^2.4.7
 
     # STATE MANAGEMENT
   flutter_bloc: ^9.1.1
@@ -94,8 +95,19 @@ flutter_gen:
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: false
-  image_path: "assets/images/app_icon.png"
+  image_path: "assets/images/app_icon.jpeg"
   min_sdk_android: 21
+
+flutter_native_splash:
+  color: "#101010"
+  image: assets/images/app_icon.jpeg
+  fullscreen: true
+  
+  #! ANDROID 12+ configuration:
+  android_12:
+    color: "#101010"
+    image: assets/images/app_icon.jpeg    
+    icon_background_color: "#101010"
 
 flutter:
   uses-material-design: true
