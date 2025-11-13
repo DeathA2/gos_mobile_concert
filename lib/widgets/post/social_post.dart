@@ -19,6 +19,7 @@ import 'package:mobile_concert/src/utils/date/date_helper.dart';
 import 'package:mobile_concert/widgets/avatar/avatar.dart';
 import 'package:mobile_concert/widgets/card/live_video.dart';
 import 'package:mobile_concert/widgets/post/media_layout_view.dart';
+import 'package:tencent_trtc_cloud/trtc_cloud_def.dart';
 
 class XSocialPost extends StatefulWidget {
   final MPost postInfo;
@@ -42,14 +43,16 @@ class _XSocialPostState extends State<XSocialPost> {
     userInfo = widget.postInfo.ownerUser;
     postId = widget.postInfo.id;
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() {
-        like = _randomDoubleInRange(1000, 10000);
-        comment = _randomDoubleInRange(10, 99);
-        share = _randomDoubleInRange(1000, 10000);
-        final listUser = GetIt.I<HomeCubit>().state.listUser;
-        listUser.retainWhere((user) => user.id != userInfo?.id);
-        randomUser = listUser[_randomDoubleInRange(0, listUser.length - 1)];
-      });
+      if (mounted) {
+        setState(() {
+          like = _randomDoubleInRange(1000, 10000);
+          comment = _randomDoubleInRange(10, 99);
+          share = _randomDoubleInRange(1000, 10000);
+          final listUser = GetIt.I<HomeCubit>().state.listUser;
+          listUser.retainWhere((user) => user.id != userInfo?.id);
+          randomUser = listUser[_randomDoubleInRange(0, listUser.length - 1)];
+        });
+      }
     });
     super.initState();
   }
@@ -195,6 +198,7 @@ class _XSocialPostState extends State<XSocialPost> {
         TencentLiveCloudService().startRemoteStream(
           userId: widget.postInfo.streamHostId,
           viewId: TencentLiveCloudService().getViewId,
+          fillMode: TRTCCloudDef.TRTC_VIDEO_RENDER_MODE_FILL,
         );
       },
 

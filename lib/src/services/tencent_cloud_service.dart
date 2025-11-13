@@ -24,9 +24,9 @@ class TencentLiveCloudService {
     _isInitialized = true;
   }
 
-  TRTCCloud get trtc {
-    if (_trtcCloud == null) {
-      throw Exception('TencentLiveCloudService chưa được init()');
+  Future<TRTCCloud> get trtc async {
+    if (!_isInitialized) {
+      await init();
     }
     return _trtcCloud!;
   }
@@ -46,6 +46,7 @@ class TencentLiveCloudService {
     required int scene,
   }) async {
     await init();
+    final trtc = await TencentLiveCloudService().trtc;
     await trtc.enterRoom(
       TRTCParams(
         sdkAppId: sdkAppId,
@@ -62,6 +63,7 @@ class TencentLiveCloudService {
     required bool isFrontCamera,
     required int viewId,
   }) async {
+    final trtc = await TencentLiveCloudService().trtc;
     await trtc.startLocalPreview(isFrontCamera, viewId);
     await trtc.setLocalRenderParams(
       TRTCRenderParams(mirrorType: TRTCCloudDef.TRTC_VIDEO_MIRROR_TYPE_DISABLE),
@@ -79,7 +81,9 @@ class TencentLiveCloudService {
   Future<void> startRemoteStream({
     required String userId,
     required int viewId,
+    int? fillMode,
   }) async {
+    final trtc = await TencentLiveCloudService().trtc;
     await trtc.setVideoEncoderParam(
       TRTCVideoEncParam(
         videoFps: 30,
@@ -90,7 +94,9 @@ class TencentLiveCloudService {
     await trtc.setRemoteRenderParams(
       userId,
       TRTCCloudDef.TRTC_VIDEO_STREAM_TYPE_BIG,
-      TRTCRenderParams(fillMode: TRTCCloudDef.TRTC_VIDEO_RENDER_MODE_FIT),
+      TRTCRenderParams(
+        fillMode: fillMode ?? TRTCCloudDef.TRTC_VIDEO_RENDER_MODE_FIT,
+      ),
     );
     await trtc.startRemoteView(
       userId,
@@ -100,6 +106,7 @@ class TencentLiveCloudService {
   }
 
   Future<void> exitRoom() async {
+    final trtc = await TencentLiveCloudService().trtc;
     await trtc.exitRoom();
   }
 

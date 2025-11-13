@@ -7,7 +7,11 @@ import 'package:tencent_trtc_cloud/trtc_cloud_def.dart';
 import 'package:tencent_trtc_cloud/trtc_cloud_video_view.dart';
 
 class LiveVideoCustom extends StatefulWidget {
-  const LiveVideoCustom({super.key, required this.hostId, required this.roomId});
+  const LiveVideoCustom({
+    super.key,
+    required this.hostId,
+    required this.roomId,
+  });
   final String hostId;
   final int roomId;
 
@@ -48,7 +52,11 @@ class _LiveVideoCustomState extends State<LiveVideoCustom> {
       child: TRTCCloudVideoView(
         onViewCreated: (viewId) {
           TencentLiveCloudService().viewId = viewId;
-          liveService.startRemoteStream(userId: widget.hostId, viewId: viewId);
+          liveService.startRemoteStream(
+            userId: widget.hostId,
+            viewId: viewId,
+            fillMode: TRTCCloudDef.TRTC_VIDEO_RENDER_MODE_FILL,
+          );
         },
       ),
     );

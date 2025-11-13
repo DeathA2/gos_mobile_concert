@@ -320,7 +320,6 @@ class _VideoLiveFullScreenState extends State<VideoLiveFullScreen> {
                 horizontal: AppPadding.p12,
                 vertical: AppPadding.p4,
               ),
-              decoration: BoxDecoration(color: Colors.black38),
               child: Text(
                 msg,
                 style: AppStyles.titleSmall.copyWith(color: Colors.white),
