@@ -18,15 +18,19 @@ import 'package:vector_graphics/vector_graphics.dart' as _vg;
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/app_icon.jpeg
+  AssetGenImage get appIconJpeg =>
+      const AssetGenImage('assets/images/app_icon.jpeg');
+
   /// File path: assets/images/app_icon.png
-  AssetGenImage get appIcon =>
+  AssetGenImage get appIconPng =>
       const AssetGenImage('assets/images/app_icon.png');
 
   /// File path: assets/images/avatar.png
   AssetGenImage get avatar => const AssetGenImage('assets/images/avatar.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [appIcon, avatar];
+  List<AssetGenImage> get values => [appIconJpeg, appIconPng, avatar];
 }
 
 class $AssetsLottiesGen {
